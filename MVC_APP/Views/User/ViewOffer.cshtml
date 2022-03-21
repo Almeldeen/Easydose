@@ -1,0 +1,326 @@
+﻿
+@{
+    ViewBag.Title = "ViewOffer";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+
+    .coupon_box h1,
+    .coupon_box h2,
+    .coupon_box h3,
+    .coupon_box h4 {
+        margin: 0
+    }
+
+    .coupon_box {
+        background: #14caba;
+        background: -webkit-linear-gradient(to top, #14caba, #0062c0);
+        background: linear-gradient(to top, #14caba, #0062c0);
+        border-radius: 7px;
+        padding: 1rem;
+        text-align: center;
+        color: #fff;
+        position: relative;
+    }
+
+    .title {
+        color: rgba(255, 255, 255, 0.75);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 20px
+    }
+
+    .how_much {
+        font-size: 55px;
+    }
+
+   .coupon_box h3 {
+        font-size: 35px
+    }
+
+    .how_much,
+    h3 {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        text-align: center
+    }
+
+    .coupon_box .btn {
+        padding: 0.5rem 3rem;
+        background: #fff;
+        border: none;
+        border-radius: 30px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 18px;
+        margin-top: 2rem;
+        cursor: pointer;
+        outline: none;
+        transition: 250ms
+    }
+
+        .coupon_box .btn:hover {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25)
+        }
+
+    .body {
+        padding-bottom: 3rem;
+        border-bottom: 2px dashed rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+</style>
+<input type="hidden" id="hdnid" value="@ViewBag.id" />
+<div class="container">
+    <section class="container text-right my-2 h-100 ">
+        <h2 class="text-muted text-center w-100 my-5">عرض <em class="fa fa-gift"></em></h2>
+        <hr>
+        <div class="w-100 row  justify-content-between align-items-end mb-4">
+
+            <h2 class="text-muted text-lg-right w-100 my-3">@ViewBag.Name </h2>
+
+
+
+        </div>
+        <hr>
+
+
+
+
+        <div class="row justify-content-around  position-relative mx-3  ">
+            <div class=" col-lg-3 pb-2 ">
+
+                <div class='coupon_box'>
+                    <div class='body'>
+                        <h4 class='title'> خصم</h4>
+
+                        <h2 class='how_much'> <b> @ViewBag.dispercent% </b> </h2>
+                        <h3> لفترة محدودة </h3>
+                    </div>
+                    <h1 class="text-center mt-3">
+                        @ViewBag.disprice <small>جنيه</small>
+                    </h1>
+                    <h5>
+                        <small>بدلًا من <span>@ViewBag.price جنيه</span></small>
+                    </h5>
+                    <button id="btnaddoffer" onclick="addoffer()" class='btn'> احصل عليه الآن </button>
+                    <button id="btnaddoffer2"  style="display:none" class='btn'> تمت إضافته <em class="fa fa-check"></em>  </button>
+                </div>
+            </div>
+
+            <div id="item" class="row col-lg-9 p-3 rounded border border-primary justify-content-center">
+
+
+            </div>
+
+        </div>
+
+
+
+    </section>
+</div>
+
+@*<div class="container">
+        <section class="container text-right my-2 h-100 ">
+            <h2 class="text-muted text-center w-100 my-5">عرض <em class="fa fa-gift"></em></h2>
+            <hr>
+            <div class="w-100 row  justify-content-between align-items-end mb-4">
+
+                <h2 class="text-muted text-lg-right w-100 my-3">@ViewBag.Name </h2>
+
+
+
+            </div>
+            <hr>
+
+
+
+
+            <div class="rouned shadow-lg p-3 py-4 position-relative mx-3 bg-primary ">
+
+                <div id="item" class="row justify-content-center">
+
+
+                </div>
+                <div class="my-2 w-100 row justify-content-around mx-auto  text-light text-center">
+                    <div>
+                        <span style="font-size: 50px">100 جنيه</span>
+                        &nbsp;
+                        <span>بدلًا من<del style="font-size:25px" class="mx-1">154</del> جنيه </span>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </section>
+    </div>*@
+
+<script>
+    var products = [];
+    var cartArr;
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#proudcts').addClass('active');
+        GetPageData(1)
+        debugger;
+        var id = $('#hdnid').val();
+        Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+        for (var i = 0; i < Offerarr.length; i++) {
+            if (Offerarr[0].id == id) {
+                $('#btnaddoffer').hide()
+                $('#btnaddoffer2').show()
+
+            }
+            
+        }
+    })
+    function GetPageData(pageNum) {
+
+        //After every trigger remove previous data and paging
+        $(".pagination").empty();
+        $("#item").empty();
+        var id = $('#hdnid').val();
+        var frompage = 6;
+        $.ajax({
+            url: "/User/GetProudctsData?Id=" + id + "&frompage=" + frompage + "&pageNumber=" + pageNum + "&pageSize=" + 12,
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (response) {
+
+                products = response.Data;
+                cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+                var temp = "";
+                products.forEach(p => {
+
+                    temp += '<div class="col-6 col-md-3 col-lg-3 p-1"><div class="item">' +
+                        '<div class="my-hover bg-light  overflow-hidden position-relative  border d-flex justify-content-center align-items-center  rounded-lg text-right">' +
+                        '<div class="item_content  px-3 py-4" ">' +
+                        '<div class="item-img">';
+
+                    temp += '<a href="/User/ProudctDetails?proudct_id=' + p.Id + '">' +
+                        '<div class="px-2 text-center">' +
+                        '<img src="/Image/' + p.Image + '" class="mb-2" height="120" style="width: 120px">' +
+                        '</div>' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="item_desc">' +
+                        '<a href="/User/ProudctDetails?proudct_id=' + p.Id + '" class="text-decoration-none">' +
+                        '<div>' +
+                        '<h6 class="text-gray py-1 text-center">' + p.Name + '</h6></div></a></div>' +
+                        '<div class="offer_price">' +
+                        '<a  class="text-decoration-none">';
+
+
+                    temp += '<div class="clearfix"></div></a></div><div>';
+
+
+
+                    temp += '</div ></div ></div ></div ></div>';
+                })
+                $("#item").append(temp);
+                PaggingTemplate(response.TotalPages, response.CurrentPage);
+            }
+        });
+    }
+    //This is paging temlpate ,you should just copy paste
+    function PaggingTemplate(totalPage, currentPage) {
+
+        var template = "";
+        var TotalPages = totalPage;
+        var CurrentPage = currentPage;
+        var PageNumberArray = Array();
+
+
+        var countIncr = 1;
+        if (currentPage != 1) {
+
+            for (var i = currentPage - 1; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage - 1;
+                if (PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        else {
+            for (var i = currentPage; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage;
+                if (totalPage != currentPage && PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        PageNumberArray = PageNumberArray.slice(0, 5);
+        var FirstPage = 1;
+        var LastPage = totalPage;
+        if (totalPage != currentPage) {
+            var ForwardOne = currentPage + 1;
+        }
+        var BackwardOne = 1;
+        if (currentPage > 1) {
+            BackwardOne = currentPage - 1;
+        }
+
+        //template = "<p>" + CurrentPage + " of " + TotalPages + " pages</p>"
+        template = template + '<li class="page-item">' +
+            '<a onclick="GetPageData(' + BackwardOne + ')" class="page-link"  aria-label="Previous">' +
+            '<span aria-hidden="true">&laquo;</span>' +
+            '<span class="sr-only">Previous</span>' +
+            '</a>' +
+            '</li>';
+
+
+        var numberingLoop = "";
+        for (var i = 0; i < PageNumberArray.length; i++) {
+            if (PageNumberArray[i] == currentPage) {
+                numberingLoop = numberingLoop + '<li  class="page-item active"><a onclick="GetPageData(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+            else {
+                numberingLoop = numberingLoop + '<li class="page-item"><a onclick="GetPageData(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+
+        }
+        template = template + numberingLoop + '<li class="page-item">' +
+            ' <a  onclick="GetPageData(' + ForwardOne + ')" class="page-link"  aria-label="Next">' +
+            '<span aria-hidden="true">&raquo;</span>' +
+            '<span class="sr-only">Next</span>' +
+            '</a>' +
+            '</li>';
+
+        $(".pagination").append(template);
+        $('.addToCartBtn').click((e) => {
+            const t = `<button type="button" disabled class="btn-gray btn rounded  py-2 w-100">  تمت إضافته <em class="fa fa-check"></em> </button>`;
+
+            const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+            arr.push({ id: e.target.id, value: 1 });
+            localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+            e.target.parentElement.innerHTML = t;
+            $('#numOfCarts').text(arr.length)
+            $('#numOfCarts2').text(arr.length)
+        });
+        $('#numOfCarts').text(cartArr.length)
+        $('#numOfCarts2').text(cartArr.length)
+
+    }
+    function addoffer() {
+        var id = $('#hdnid').val()
+        $('#btnaddoffer').hide()
+                $('#btnaddoffer2').show()
+        //const t = `<button type="button" disabled class="btn-gray btn rounded  py-2 w-100">  تمت إضافته <em class="fa fa-check"></em> </button>`;
+
+        Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+        const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+        Offerarr.push({ id: id, value: 1 });
+        localStorage.setItem('easy-dose-cart-offer', JSON.stringify(Offerarr));
+        var cartlength = Offerarr.length + arr.length
+        $('#numOfCarts').text(cartlength)
+        $('#numOfCarts2').text(cartlength)
+    }
+</script>
+
+

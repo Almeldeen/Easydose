@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "SMS";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <section class="content row w-100">
+
+                    <div class="col-12 my-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">رسائل ال SMS</h3>
+                            </div>
+                            <div class=" ">
+                                <br />
+                                <h3 class="alert-success w-auto">في حالة الارسال الي اكثر من رقم يجب الفصل بين كل رقم بعلامة  <span class="alert-danger">(,)</span></h3>
+                                <!-- form start -->
+                                <form id="formadd">
+                                    <div class="card-body" style="max-width: 400px;">
+                                        <div class="form-group">
+                                            <label for="name">رقم التليفون</label>
+                                            <input required type="text" class="form-control" id="phone" placeholder="أدخل رقم التليفون">
+                                            <small id="PhoneError" style="display:none" class="text-danger error">من فضلك ادخل رفم التيلفون</small>
+                                            <small id="PhoneError2" style="display:none" class="text-danger error">رقم التليفون مكون من 11 رقم</small>
+                                            <small id="PhoneError3" style="display:none" class="text-danger error">من فضلك ادخل رقم التليفون صحيح</small>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="arabdisc">الرسالة </label>
+                                            <textarea required type="" class="form-control" id="msgsms" cols="150" rows="6" placeholder="أدخل الرساله"></textarea>
+                                            <small id="msgError" style="display:none" class="text-danger error">من فضلك ادخل نص الرساله</small>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                    <div class="card-footer">
+                                        <button onclick="SendSMS()" type="button" class="btn btn-primary">ارسال <small><em class="fa fa-plus"></em></small></button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            </section>
+        </div>
+        <!-- /.row -->
+    </div>
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#SMS').addClass('active');     
+    })
+    function SendSMS() {
+         $('.error').hide();
+        var phone =  $('#phone').val();
+        //var keyPhone = phone.substring(0, 3);
+        var msg = $('#msgsms').val()
+        //if (phone == "" || phone == null) {
+        //    $('#PhoneError').show();
+        //}
+        //else if (phone.length != 11) {
+        //    $('#PhoneError2').show();
+        //}
+        //else if (keyPhone != "010" && keyPhone != "011" && keyPhone != "012" && keyPhone != "015") {
+        //    $('#PhoneError3').show();
+        //}
+        //else
+        if (msg == "" || msg == null) {
+             $('#msgError').show();
+        }
+        else {
+             $.ajax({
+            url: "/Admin/SendSMS?phone=" + phone + "&msg=" + msg,
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم الارسال بنجاح',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                     
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+       
+    }
+</script>

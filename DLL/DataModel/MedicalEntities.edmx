@@ -1,0 +1,841 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MedicalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Ads">
+          <Key>
+            <PropertyRef Name="Ad_Id" />
+          </Key>
+          <Property Name="Ad_Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Place" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Show" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Show" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Media">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Facebook" Type="nvarchar(max)" />
+          <Property Name="Massenger" Type="nvarchar(max)" />
+          <Property Name="Whatsapp" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OfferName" Type="nvarchar(max)" />
+          <Property Name="Discount" Type="int" />
+          <Property Name="Ads_id" Type="int" />
+          <Property Name="OfferPrice" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="Offer_details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Offer_Id" Type="int" />
+          <Property Name="Proudct_id" Type="int" />
+          <Property Name="Active" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+          </Key>
+          <Property Name="Order_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="E-Mail" Type="nvarchar(max)" />
+          <Property Name="Adress" Type="nvarchar(max)" />
+          <Property Name="Date" Type="datetime2" Precision="7" />
+          <Property Name="Status" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order_Id" Type="int" />
+          <Property Name="Proudct_Id" Type="int" />
+          <Property Name="Offer_Id" Type="int" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Proudcut">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Discount_per" Type="int" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Brand_Id" Type="int" />
+          <Property Name="Show" Type="nvarchar(max)" />
+          <Property Name="Description_A" Type="nvarchar(max)" />
+          <Property Name="Description_E" Type="nvarchar(max)" />
+          <Property Name="wherestatus" Type="nvarchar(max)" />
+          <Property Name="Discount_num" Type="int" />
+        </EntityType>
+        <EntityType Name="Proudcut_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_Id" Type="int" />
+          <Property Name="Proudct_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Offer_Ads">
+          <End Role="Ads" Type="Self.Ads" Multiplicity="0..1" />
+          <End Role="Offer" Type="Self.Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ads">
+              <PropertyRef Name="Ad_Id" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="Ads_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offer_details_Offer">
+          <End Role="Offer" Type="Self.Offer" Multiplicity="0..1" />
+          <End Role="Offer_details" Type="Self.Offer_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offer_details">
+              <PropertyRef Name="Offer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offer_details_Proudcut">
+          <End Role="Proudcut" Type="Self.Proudcut" Multiplicity="0..1" />
+          <End Role="Offer_details" Type="Self.Offer_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offer_details">
+              <PropertyRef Name="Proudct_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Offer">
+          <End Role="Offer" Type="Self.Offer" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Offer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Order_Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Proudcut">
+          <End Role="Proudcut" Type="Self.Proudcut" Multiplicity="0..1" />
+          <End Role="Order_Details" Type="Self.Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Proudct_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
+          <End Role="Proudcut" Type="Self.Proudcut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut">
+              <PropertyRef Name="Brand_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Details_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Proudcut_Details" Type="Self.Proudcut_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut_Details">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Details_Proudcut">
+          <End Role="Proudcut" Type="Self.Proudcut" Multiplicity="0..1" />
+          <End Role="Proudcut_Details" Type="Self.Proudcut_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut_Details">
+              <PropertyRef Name="Proudct_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="FilterProudct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="category" Type="int" Mode="In" />
+          <Parameter Name="source" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="fromprice" Type="decimal" Mode="In" />
+          <Parameter Name="toprice" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="FilterProudctBest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="category" Type="int" Mode="In" />
+          <Parameter Name="source" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="fromprice" Type="decimal" Mode="In" />
+          <Parameter Name="toprice" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="SearchResult" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="MedicalModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ads" EntityType="Self.Ads" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Media" EntityType="Self.Media" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offer" EntityType="Self.Offer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Offer_details" EntityType="Self.Offer_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Details" EntityType="Self.Order_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proudcut" EntityType="Self.Proudcut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proudcut_Details" EntityType="Self.Proudcut_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Offer_Ads" Association="Self.FK_Offer_Ads">
+            <End Role="Ads" EntitySet="Ads" />
+            <End Role="Offer" EntitySet="Offer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offer_details_Offer" Association="Self.FK_Offer_details_Offer">
+            <End Role="Offer" EntitySet="Offer" />
+            <End Role="Offer_details" EntitySet="Offer_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offer_details_Proudcut" Association="Self.FK_Offer_details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcut" />
+            <End Role="Offer_details" EntitySet="Offer_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Offer" Association="Self.FK_Order_Details_Offer">
+            <End Role="Offer" EntitySet="Offer" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Order" Association="Self.FK_Order_Details_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Proudcut" Association="Self.FK_Order_Details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcut" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Brand" Association="Self.FK_Proudcut_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Proudcut" EntitySet="Proudcut" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Details_Category" Association="Self.FK_Proudcut_Details_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Proudcut_Details" EntitySet="Proudcut_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Details_Proudcut" Association="Self.FK_Proudcut_Details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcut" />
+            <End Role="Proudcut_Details" EntitySet="Proudcut_Details" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MedicalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MedicalEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="FilterProudct" ReturnType="Collection(MedicalModel.FilterProudct_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="Int32" />
+            <Parameter Name="source" Mode="In" Type="String" />
+            <Parameter Name="fromprice" Mode="In" Type="Decimal" />
+            <Parameter Name="toprice" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="FilterProudctBest" ReturnType="Collection(MedicalModel.FilterProudctBest_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="category" Mode="In" Type="Int32" />
+            <Parameter Name="source" Mode="In" Type="String" />
+            <Parameter Name="fromprice" Mode="In" Type="Decimal" />
+            <Parameter Name="toprice" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="SearchResult" ReturnType="Collection(MedicalModel.SearchResult_Result)">
+          <Parameter Name="name" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="admins" EntityType="MedicalModel.admin" />
+          <EntitySet Name="Ads" EntityType="MedicalModel.Ad" />
+          <EntitySet Name="Brands" EntityType="MedicalModel.Brand" />
+          <EntitySet Name="Categories" EntityType="MedicalModel.Category" />
+          <EntitySet Name="Media" EntityType="MedicalModel.Medium" />
+          <EntitySet Name="Offers" EntityType="MedicalModel.Offer" />
+          <EntitySet Name="Offer_details" EntityType="MedicalModel.Offer_details" />
+          <EntitySet Name="Orders" EntityType="MedicalModel.Order" />
+          <EntitySet Name="Order_Details" EntityType="MedicalModel.Order_Details" />
+          <EntitySet Name="Proudcuts" EntityType="MedicalModel.Proudcut" />
+          <EntitySet Name="Proudcut_Details" EntityType="MedicalModel.Proudcut_Details" />
+          <EntitySet Name="sysdiagrams" EntityType="MedicalModel.sysdiagram" />
+          <AssociationSet Name="FK_Offer_Ads" Association="MedicalModel.FK_Offer_Ads">
+            <End Role="Ad" EntitySet="Ads" />
+            <End Role="Offer" EntitySet="Offers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Brand" Association="MedicalModel.FK_Proudcut_Brand">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="Proudcut" EntitySet="Proudcuts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Details_Category" Association="MedicalModel.FK_Proudcut_Details_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Proudcut_Details" EntitySet="Proudcut_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offer_details_Offer" Association="MedicalModel.FK_Offer_details_Offer">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="Offer_details" EntitySet="Offer_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Offer" Association="MedicalModel.FK_Order_Details_Offer">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Offer_details_Proudcut" Association="MedicalModel.FK_Offer_details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcuts" />
+            <End Role="Offer_details" EntitySet="Offer_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Order" Association="MedicalModel.FK_Order_Details_Order">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Details_Proudcut" Association="MedicalModel.FK_Order_Details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcuts" />
+            <End Role="Order_Details" EntitySet="Order_Details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proudcut_Details_Proudcut" Association="MedicalModel.FK_Proudcut_Details_Proudcut">
+            <End Role="Proudcut" EntitySet="Proudcuts" />
+            <End Role="Proudcut_Details" EntitySet="Proudcut_Details" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="FilterProudct_Result">
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="String" Name="Image" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="Int32" Name="Discount_num" Nullable="true" />
+          <Property Type="Int32" Name="Discount_per" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="18" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="FilterProudctBest_Result">
+          <Property Type="Int32" Name="qintity" Nullable="true" />
+          <Property Type="Int32" Name="Id" Nullable="true" />
+          <Property Type="String" Name="Image" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Int32" Name="Discount_per" Nullable="true" />
+          <Property Type="Int32" Name="Discount_num" Nullable="true" />
+          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="18" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="SearchResult_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" />
+          <Property Type="String" Name="Show" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Ad">
+          <Key>
+            <PropertyRef Name="Ad_Id" />
+          </Key>
+          <Property Name="Ad_Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Offers" Relationship="MedicalModel.FK_Offer_Ads" FromRole="Ad" ToRole="Offer" />
+        </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Show" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Proudcuts" Relationship="MedicalModel.FK_Proudcut_Brand" FromRole="Brand" ToRole="Proudcut" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Show" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Proudcut_Details" Relationship="MedicalModel.FK_Proudcut_Details_Category" FromRole="Category" ToRole="Proudcut_Details" />
+        </EntityType>
+        <EntityType Name="Medium">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Facebook" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Massenger" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Whatsapp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OfferName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Int32" />
+          <Property Name="Ads_id" Type="Int32" />
+          <Property Name="OfferPrice" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="Ad" Relationship="MedicalModel.FK_Offer_Ads" FromRole="Offer" ToRole="Ad" />
+          <NavigationProperty Name="Offer_details" Relationship="MedicalModel.FK_Offer_details_Offer" FromRole="Offer" ToRole="Offer_details" />
+          <NavigationProperty Name="Order_Details" Relationship="MedicalModel.FK_Order_Details_Offer" FromRole="Offer" ToRole="Order_Details" />
+        </EntityType>
+        <EntityType Name="Offer_details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Offer_Id" Type="Int32" />
+          <Property Name="Proudct_id" Type="Int32" />
+          <Property Name="Active" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Offer" Relationship="MedicalModel.FK_Offer_details_Offer" FromRole="Offer_details" ToRole="Offer" />
+          <NavigationProperty Name="Proudcut" Relationship="MedicalModel.FK_Offer_details_Proudcut" FromRole="Offer_details" ToRole="Proudcut" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_Id" />
+          </Key>
+          <Property Name="Order_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="E_Mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Adress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order_Details" Relationship="MedicalModel.FK_Order_Details_Order" FromRole="Order" ToRole="Order_Details" />
+        </EntityType>
+        <EntityType Name="Order_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order_Id" Type="Int32" />
+          <Property Name="Proudct_Id" Type="Int32" />
+          <Property Name="Offer_Id" Type="Int32" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Offer" Relationship="MedicalModel.FK_Order_Details_Offer" FromRole="Order_Details" ToRole="Offer" />
+          <NavigationProperty Name="Order" Relationship="MedicalModel.FK_Order_Details_Order" FromRole="Order_Details" ToRole="Order" />
+          <NavigationProperty Name="Proudcut" Relationship="MedicalModel.FK_Order_Details_Proudcut" FromRole="Order_Details" ToRole="Proudcut" />
+        </EntityType>
+        <EntityType Name="Proudcut">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Discount_per" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Brand_Id" Type="Int32" />
+          <Property Name="Show" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description_A" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description_E" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="wherestatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discount_num" Type="Int32" />
+          <NavigationProperty Name="Brand" Relationship="MedicalModel.FK_Proudcut_Brand" FromRole="Proudcut" ToRole="Brand" />
+          <NavigationProperty Name="Offer_details" Relationship="MedicalModel.FK_Offer_details_Proudcut" FromRole="Proudcut" ToRole="Offer_details" />
+          <NavigationProperty Name="Order_Details" Relationship="MedicalModel.FK_Order_Details_Proudcut" FromRole="Proudcut" ToRole="Order_Details" />
+          <NavigationProperty Name="Proudcut_Details" Relationship="MedicalModel.FK_Proudcut_Details_Proudcut" FromRole="Proudcut" ToRole="Proudcut_Details" />
+        </EntityType>
+        <EntityType Name="Proudcut_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_Id" Type="Int32" />
+          <Property Name="Proudct_Id" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="MedicalModel.FK_Proudcut_Details_Category" FromRole="Proudcut_Details" ToRole="Category" />
+          <NavigationProperty Name="Proudcut" Relationship="MedicalModel.FK_Proudcut_Details_Proudcut" FromRole="Proudcut_Details" ToRole="Proudcut" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Offer_Ads">
+          <End Type="MedicalModel.Ad" Role="Ad" Multiplicity="0..1" />
+          <End Type="MedicalModel.Offer" Role="Offer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ad">
+              <PropertyRef Name="Ad_Id" />
+            </Principal>
+            <Dependent Role="Offer">
+              <PropertyRef Name="Ads_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Brand">
+          <End Type="MedicalModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="MedicalModel.Proudcut" Role="Proudcut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut">
+              <PropertyRef Name="Brand_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Details_Category">
+          <End Type="MedicalModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="MedicalModel.Proudcut_Details" Role="Proudcut_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut_Details">
+              <PropertyRef Name="Category_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offer_details_Offer">
+          <End Type="MedicalModel.Offer" Role="Offer" Multiplicity="0..1" />
+          <End Type="MedicalModel.Offer_details" Role="Offer_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offer_details">
+              <PropertyRef Name="Offer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Offer">
+          <End Type="MedicalModel.Offer" Role="Offer" Multiplicity="0..1" />
+          <End Type="MedicalModel.Order_Details" Role="Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Offer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Offer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Offer_details_Proudcut">
+          <End Type="MedicalModel.Proudcut" Role="Proudcut" Multiplicity="0..1" />
+          <End Type="MedicalModel.Offer_details" Role="Offer_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Offer_details">
+              <PropertyRef Name="Proudct_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Order">
+          <End Type="MedicalModel.Order" Role="Order" Multiplicity="0..1" />
+          <End Type="MedicalModel.Order_Details" Role="Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Order_Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Order_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Details_Proudcut">
+          <End Type="MedicalModel.Proudcut" Role="Proudcut" Multiplicity="0..1" />
+          <End Type="MedicalModel.Order_Details" Role="Order_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order_Details">
+              <PropertyRef Name="Proudct_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proudcut_Details_Proudcut">
+          <End Type="MedicalModel.Proudcut" Role="Proudcut" Multiplicity="0..1" />
+          <End Type="MedicalModel.Proudcut_Details" Role="Proudcut_Details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proudcut">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Proudcut_Details">
+              <PropertyRef Name="Proudct_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MedicalModelStoreContainer" CdmEntityContainer="MedicalEntities">
+          <FunctionImportMapping FunctionImportName="FilterProudct" FunctionName="MedicalModel.Store.FilterProudct">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MedicalModel.FilterProudct_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Discount_num" ColumnName="Discount_num" />
+                <ScalarProperty Name="Discount_per" ColumnName="Discount_per" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FilterProudctBest" FunctionName="MedicalModel.Store.FilterProudctBest">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MedicalModel.FilterProudctBest_Result">
+                <ScalarProperty Name="qintity" ColumnName="qintity" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Discount_per" ColumnName="Discount_per" />
+                <ScalarProperty Name="Discount_num" ColumnName="Discount_num" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchResult" FunctionName="MedicalModel.Store.SearchResult">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MedicalModel.SearchResult_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Show" ColumnName="Show" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="MedicalModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ads">
+            <EntityTypeMapping TypeName="MedicalModel.Ad">
+              <MappingFragment StoreEntitySet="Ads">
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Ad_Id" ColumnName="Ad_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="MedicalModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="MedicalModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Media">
+            <EntityTypeMapping TypeName="MedicalModel.Medium">
+              <MappingFragment StoreEntitySet="Media">
+                <ScalarProperty Name="Whatsapp" ColumnName="Whatsapp" />
+                <ScalarProperty Name="Massenger" ColumnName="Massenger" />
+                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offers">
+            <EntityTypeMapping TypeName="MedicalModel.Offer">
+              <MappingFragment StoreEntitySet="Offer">
+                <ScalarProperty Name="OfferPrice" ColumnName="OfferPrice" />
+                <ScalarProperty Name="Ads_id" ColumnName="Ads_id" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="OfferName" ColumnName="OfferName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Offer_details">
+            <EntityTypeMapping TypeName="MedicalModel.Offer_details">
+              <MappingFragment StoreEntitySet="Offer_details">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Proudct_id" ColumnName="Proudct_id" />
+                <ScalarProperty Name="Offer_Id" ColumnName="Offer_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="MedicalModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="E_Mail" ColumnName="E-Mail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Details">
+            <EntityTypeMapping TypeName="MedicalModel.Order_Details">
+              <MappingFragment StoreEntitySet="Order_Details">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Offer_Id" ColumnName="Offer_Id" />
+                <ScalarProperty Name="Proudct_Id" ColumnName="Proudct_Id" />
+                <ScalarProperty Name="Order_Id" ColumnName="Order_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proudcuts">
+            <EntityTypeMapping TypeName="MedicalModel.Proudcut">
+              <MappingFragment StoreEntitySet="Proudcut">
+                <ScalarProperty Name="Discount_num" ColumnName="Discount_num" />
+                <ScalarProperty Name="wherestatus" ColumnName="wherestatus" />
+                <ScalarProperty Name="Description_E" ColumnName="Description_E" />
+                <ScalarProperty Name="Description_A" ColumnName="Description_A" />
+                <ScalarProperty Name="Show" ColumnName="Show" />
+                <ScalarProperty Name="Brand_Id" ColumnName="Brand_Id" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Discount_per" ColumnName="Discount_per" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proudcut_Details">
+            <EntityTypeMapping TypeName="MedicalModel.Proudcut_Details">
+              <MappingFragment StoreEntitySet="Proudcut_Details">
+                <ScalarProperty Name="Proudct_Id" ColumnName="Proudct_Id" />
+                <ScalarProperty Name="Category_Id" ColumnName="Category_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MedicalModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,512 @@
+﻿@{ 
+    DLL.DataModel.MedicalEntities db = new DLL.DataModel.MedicalEntities();
+    var media = db.Media.Where(x => x.Id == 1).Select(x => new BLL.MediaVM { Facebook = x.Facebook, Whatsapp = x.Whatsapp, Massenger = x.Massenger }).FirstOrDefault();
+    var maxprice = db.Proudcuts.Select(x => x.TotalPrice).Max();
+}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Dose</title>
+    <meta name="google-site-verification" content="zZIVNtIBmEXXEhtgKmcLz1EMXOG8r81uQDvGp-B8tFg" />
+    <meta name="description" content="منصة طبية رقمية تهدف إلى ربط الهرم الطبي المكون من المريض وشركات الدواء والأطباء بمختلف تخصصاتهم لتقديم أرقى خدمة طبية آمنة في جوانب عدة تلمس وتؤثر في المجتمع المصري وأولهم الأدوية سواء مصرية الصنع أو المستوردة منها مع تقديم أفضل الكورسات المساعدة في علاج الكثير من المشكلات في مختلف التخصصات تحت إشراف وتوجيه أعلام طبية ذوو خبرة كلٌ في تخصصه، كما أننا نخطط في الفترة القادمة لتقديم حلول إبداعية سواء رقمية أو مجتمعية تساعد في تطوير المنظومة الطبية والوصول بالمريض دائمًا لبرّ الأمان" />
+    <meta name="keywords" content="Easy,easy,Dose,dose,easydosee,dosee,Easydosee,medical,ادوية وايزي دوز" />
+    <meta name="robots" content="index,follow" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/dist/styles/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/dist/styles/css/owl.theme.default.css">
+    <link rel="stylesheet" href="~/dist/styles/css/style.css">
+    <link rel="shortcut icon" href="~/dist/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.min.css">
+    <!-- Main CSS-->
+    <link href="~/dist/styles/css/form.css" rel="stylesheet" media="all">
+    <!-- الفلتر -->
+    <link rel="stylesheet" href="~/dist/js/range/css/rSlider.css">
+    <link rel="stylesheet" href="~/dist/js/multiSelect/example-styles.css">
+    <style>
+        .rs-tooltip {
+            bottom: -72px;
+        }
+
+        .multi-select-menuitem:hover {
+            background-color: #ddd;
+        }
+
+        .multi-select-container {
+            width: 100%;
+        }
+
+        .multi-select-button::after {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .multi-select-button:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #6df1e5;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(20, 202, 186, 0.25);
+        }
+
+        .multi-select-button {
+            display: inline-block;
+            font-size: 0.875em;
+            padding: 0.6em 0.6em;
+            max-width: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: -0.5em;
+            background-color: #fff;
+            border: 1px solid #dfdfdf;
+            border-radius: 4px;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .multi-select-menuitems {
+            direction: ltr;
+            z-index: 99;
+        }
+
+        .multi-select-menu {
+            z-index: 9;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ui-autocomplete {
+            background: #ccc;
+            border-radius: 0px;
+        }
+
+            .ui-autocomplete.source:hover {
+                background: #454545;
+            }
+
+
+
+
+        .ui-menu .ui-menu-item a {
+            background: #f9f9f9;
+            height: 10px;
+            font-size: 8px;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+    @*<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>*@
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NRL972N');</script>
+    <!-- End Google Tag Manager -->
+   
+</head>
+
+<body style="display: grid;
+grid-template-rows: auto 1fr auto;height:100% !important;overflow-x:hidden ">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NRL972N"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Strat Header -->
+    <nav class="navbar sticky-top shadow-sm header navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand m-0" href="/User/Index">
+                <img src="~/dist/img/logo.png" height="50" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="mx-2 d-none d-md-block" style="min-width: 250px;">
+                    <form id="searchBox " class="d-flex searchBox">
+
+                        <input id="search" autocomplete="off" class="form-control px-4 py-2 search" placeholder="ابحث عن اي منتج  " aria-label="Search">
+                        <button id="btnsearch" class="btn btn-green" type="button"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <ul class="navbar-nav mx-auto text-center">
+
+                    <li class="nav-item">
+                        <a id="main" href="/User/Index" class=" nav-link ">الرئيسية</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a id="proudcts" href="/User/ViewProudct" class=" nav-link ">كل المنتجات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="AboutUs" href="/User/AboutUs" class=" nav-link ">من نحن</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="ContactUs" href="/User/ContactUs" class=" nav-link">تواصل معنا</a>
+                    </li>
+
+                </ul>
+
+                <div class="text-center">
+                    <a data-toggle="tooltip" data-placement="bottom" title="سلة المشتريات" type="button" id="gocarts" />
+                    <span class="d-lg-none">سلة المشتريات</span>
+                    <span id="numOfCarts" class="badge badge-danger">0</span>
+                    <i class="fa fa-cart-arrow-down text-green"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+    <div class="mx-2 d-block d-md-none  mt-2 mx-auto searchBox2" style="        width: 250px;
+">
+        <form id="searchBox2" class="d-flex searchBox">
+
+            <input id="search2" style="border-radius: 0 8px  8px 0 " autocomplete="off" class="form-control px-4 py-2 search" placeholder="ابحث عن اي منتج " aria-label="Search">
+            <button id="btnsearch2" style="border-radius:  8px 0 0 8px " class="btn btn-green" type="button"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+    @*<div class="social position-fixed d-flex flex-column" style="bottom: 20px;left: 10px;">
+
+            <a data-toggle="tooltip" data-placement="right" title="راسلنا على وتساب " class="rounded-circle text-decoration-none socialLink text-primary bg-light d-flex justify-content-center align-items-center m-2" style="cursor: pointer;">
+                <i class="fa fa-whatsapp" style="font-size: 30px;" aria-hidden="true"></i>
+            </a>
+            <a data-toggle="tooltip" data-placement="right" title="راسلنا على ماسنجر " class="rounded-circle text-decoration-none socialLink text-primary bg-light d-flex justify-content-center align-items-center m-2" style="cursor: pointer;">
+                <svg width="24" height="24" class="text-primary" fill="#14caba" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c-6.627 0-12 4.975-12 11.111 0 3.497 1.745 6.616 4.472 8.652v4.237l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.974 12-11.111 0-6.136-5.373-11.111-12-11.111zm1.193 14.963l-3.056-3.259-5.963 3.259 6.559-6.963 3.13 3.259 5.889-3.259-6.559 6.963z" /></svg>
+            </a>
+        </div>*@
+    <div id="div">
+        @RenderBody()
+    </div>
+ 
+        @*<a class="position-relative" data-toggle="tooltip" data-placement="bottom" title="سلة المشتريات" type="button" id="gocarts2" />
+        <span id="numOfCarts2" class="badge badge-danger position-absolute" style="top: -10px;right:-10px">0</span>
+        <i class="fa fa-cart-arrow-down text-green" style="font-size: 30px"></i>
+        </a>*@
+    </div>
+    <div class="text-center warp">
+    </div>
+    <div id="fixed-cart " class="rounded-circle bg-light  row justify-content-center align-items-center" style="position: fixed;bottom:30px;right:30px; width:60px;height:60px;z-index:99999">
+        <a class="position-relative" data-toggle="tooltip" data-placement="bottom" title="سلة المشتريات" type="button" id="gocarts2" />
+        <span id="numOfCarts2" class="badge badge-danger position-absolute" style="top: -10px;right:-10px">0</span>
+        <i class="fa fa-cart-arrow-down text-green" style="font-size: 30px"></i>
+        </a>
+    </div>
+
+    <!-- start footer -->
+    <footer class="footer bg-white py-3 border-top  ">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-center justify-content-md-between text-gray align-items-center">
+                <div class="col-auto text-center">
+                    <div class="footer-social-icons d-inline-block">
+                        <a href="@media.Facebook" style="width: 50px;height: 50px;" class="rounded-circle overflow-hidden bg-white shadow d-inline-block mx-3" target="_blank"><i class="fa fa-facebook text-green "></i></a>
+                        <a href="@media.Whatsapp" style="width: 50px; height: 50px;" class="rounded-circle overflow-hidden bg-white shadow d-inline-block mx-3" target="_blank"><i class="fa fa-whatsapp text-green "></i></a>
+                        <a href="@media.Massenger" style="width: 50px;height: 50px;" class="rounded-circle overflow-hidden bg-white shadow d-inline-block mx-3" target="_blank"><i class="fab fa-facebook-messenger text-green "></i></a>
+
+
+                    </div>
+                </div>
+
+                <img src="~/dist/img/logo.png" alt="" height="54px;">
+
+                <div class="col-auto">
+                    <div class="footer-logo text-center">
+                        <p dir="auto" class="copy-rights py-2 m-0 text-muted"> © 2021 . كل الحقوق محفوظة </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- End footer -->
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/84e17ee5b7.js" crossorigin="anonymous"></script>
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.rtlcss.com/bootstrap/v4.5.3/js/bootstrap.min.js" integrity="sha384-VmD+lKnI0Y4FPvr6hvZRw6xvdt/QZoNHQ4h5k0RL30aGkR9ylHU56BzrE2UoohWK" crossorigin="anonymous"></script>
+    <!-- owl-carousel -->
+    <script src="~/dist/js/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js" crossorigin="anonymous"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-198185372-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-198185372-1');
+    </script>
+
+    <script>
+        $(document).ready(function () {
+             $(function () {
+
+                 $("#search2").autocomplete({
+            appendTo: "#searchBox2",
+            minLength: 0,
+             source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValue","User")',
+                dataType: "json",
+                data: { search: $("#search2").val() },
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+
+            });
+        },
+            focus: function (event, ui) {
+                $("#search2").val(ui.item.label);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#search2").val(ui.item.label);
+                btnsearch(ui.item.label);
+                return false;
+            }
+        })
+
+
+    });
+            $("#search").autocomplete({
+                 appendTo: "#searchBox",
+        source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValue","User")',
+                dataType: "json",
+                data: { search: $("#search").val() },
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+
+            });
+        },
+                          focus: function (event, ui) {
+                  $( "#search" ).val( ui.item.label );
+                     return false;
+                          },
+                select: function (event, ui) {
+                    debugger;
+                  $( "#search" ).val( ui.item.label );
+                    btnsearch(ui.item.label);
+                  return false;
+               }
+    })
+
+
+        })
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(".owl-carousel.normal").owlCarousel({
+                margin: 10,
+                nav: true,
+                dots: false,
+                autoWidth: true,
+                responsive: {
+                    0: {
+                        items: 3
+                    },
+                    400: {
+                        items: 5
+                    },
+                    700: {
+                        items: 6
+                    },
+                    1000: {
+                        items: 6
+                    },
+
+                },
+
+                navText: ['<img width="45"  src="../../dist/img/Arrow-left.png" alt=""/>', '<img width="45" src="../..//dist/img/Arrow-right.png" alt="">'],
+                loop: true
+            });
+            $(document).ready(function () {
+                $(".owl-carousel.product").owlCarousel({
+                    margin: 10,
+                    nav: true,
+                    dots: false,
+                    autoWidth: false,
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        400: {
+                            items: 2
+                        },
+                        600: {
+                            items: 3
+                        },
+                        800: {
+                            items: 4
+                        },
+                        1000: {
+                            items: 5
+                        },
+
+                    },
+
+                    navText: ['<img width="45"  src="../../dist/img/Arrow-left.png" alt=""/>', '<img width="45" src="../..//dist/img/Arrow-right.png" alt="">'],
+                    loop: false
+                });
+                const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+                Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+                localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+
+                var cartlength = Offerarr.length + arr.length
+                $('#numOfCarts').text(cartlength)
+                $('#numOfCarts2').text(cartlength)
+            });
+            const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+            Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+            localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+
+            var cartlength = Offerarr.length + arr.length
+            $('#numOfCarts').text(cartlength)
+            $('#numOfCarts2').text(cartlength)
+        }); $(document).ready(function () {
+
+            $(document).ready(function () {
+                $(".owl-carousel.product").owlCarousel({
+                    margin: 10,
+                    nav: true,
+                    dots: false,
+                    autoWidth: false,
+                    responsive: {
+                        0: {
+                            items: 2
+                        },
+                        400: {
+                            items: 2
+                        },
+                        600: {
+                            items: 3
+                        },
+                        800: {
+                            items: 4
+                        },
+                        1000: {
+                            items: 5
+                        },
+
+                    },
+
+                    navText: ['<img width="45"  src="../../dist/img/Arrow-left.png" alt=""/>', '<img width="45" src="../..//dist/img/Arrow-right.png" alt="">'],
+                    loop: false
+                });
+                const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+
+                Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+                localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+
+                var cartlength = Offerarr.length + arr.length
+                $('#numOfCarts').text(cartlength)
+                $('#numOfCarts2').text(cartlength)
+            });
+            const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+            Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+            localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+
+            var cartlength = Offerarr.length + arr.length
+            $('#numOfCarts').text(cartlength)
+            $('#numOfCarts2').text(cartlength)
+        });
+        $('#gocarts').click(function () {
+            window.location = "/User/Carts"
+        })
+        $('#gocarts2').click(function () {
+            window.location = "/User/Carts"
+        })
+        $('#btnsearch').click(function () {
+            debugger;
+            var search = $('#search').val();
+            window.location = "/User/SearchResult?search=" + search;
+        })
+        $('#btnsearch2').click(function () {
+            debugger;
+            var search = $('#search2').val();
+            window.location = "/User/SearchResult?search=" + search;
+        })
+        function btnsearch(search) {
+            window.location = "/User/SearchResult?search=" + search;
+        }
+    </script>
+    <!-- الفلتر -->
+    <script src="~/dist/js/range/js/rSlider.js"></script>
+    <script>
+        (function () {
+            'use strict';
+
+            var init = function () {
+
+
+                var slider3 = new rSlider({
+                    target: '#slider3',
+                    values: {
+                        min: 0,
+                        max:@maxprice
+                    },
+                    step: 5,
+                    range: true,
+                    tooltip: true,
+                    set: [0, @maxprice],
+                    scale: false,
+                    labels: false,
+                    onChange: function (vals) {
+                        // هنا هتاخد القيمتين
+                        var nameArr = vals.split(',');
+
+                        $("#min_price").val(nameArr[0]);
+                        $("#max_price").val(nameArr[1]);
+
+
+                    }
+                });
+
+
+            };
+            window.onload = init;
+        })();
+    </script>
+    <script src="~/dist/js/multiSelect/jquery.multi-select.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#categoriesFilter').multiSelect({
+                // positionMenuWithin: $('.position-menu-within'),
+                noneText: ' اختر التصنيفات',
+                // 'menuItemHTML': ` `,
+            });
+            $('.multi-select-button').addClass('w-100');
+            $('#modal-example').multiSelect({
+                'modalHTML': '<div class="multi-select-modal">'
+            });
+        });
+    </script>
+
+</body>
+
+</html>

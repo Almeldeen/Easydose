@@ -1,0 +1,106 @@
+﻿@model BLL.MediaVM
+@{
+    ViewBag.Title = "Media";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">إدارة السوشيال ميديا</h3>
+                        </div>
+
+                        <!-- table -->
+                        <div class="card-body table-responsive">
+                            <table id="tabel1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+
+                                        <th>فيس بوك</th>
+                                        <th>واتس اب</th>
+                                        <th>ماسنجر</th>
+
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="vertical-align: middle;"><input id="face" type="text" value="@Model.Facebook" class="form-control ml-1 media1" readonly /> </td>
+
+                                        <td style="vertical-align: middle;"><input id="Whatsapp" type="text" value="@Model.Whatsapp" class="form-control ml-1 media1" readonly /> </td>
+
+                                        <td style="vertical-align: middle;"><input id="Massenger" type="text" value="@Model.Massenger" class="form-control ml-1 media1" readonly /> </td>
+
+                                        <td style="vertical-align: middle;">
+                                            <div  class="d-flex">
+                                                <a id="btnedit1" href="javascript:void(0);" onclick="edit1()" ; return false;>
+                                                    <span style="margin-right: 1%;" title="تعديل" class="btn btn-success"><em class="fa fa-edit"></em></span>
+                                                </a>
+                                            </div>
+                                            <button style="display:none" onclick="Edit2()" id="btnedit2" class="w-100 rounded-lg btn btn-primary "> تعديل</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#orders').addClass('active');
+      
+    })
+   
+    function Edit2() {
+
+        var face = $('#face').val();
+        var Whatsapp = $('#Whatsapp').val();
+         var Massenger = $('#Massenger').val();
+        $.ajax({
+            url: "/Admin/EditMedia?Facebook=" + face + "&Whatsapp=" + Whatsapp + "&Massenger=" + Massenger,
+            type: "POST",
+            success: function (result) {
+
+                if (result.res == true) {
+                   location.reload();
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+            },
+            error: function (result) {
+                console.log(result);
+            }
+        });
+    }
+    function edit1() {
+        $('#btnedit1').hide();
+        $('#btnedit2').show();
+        $('.media1').removeAttr('readonly')
+        
+    }
+   
+</script>
+

@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "BuyForm";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+<section class=" buy-page text-right py-4 position-relative min-vh-100">
+    <div class="Overlay"></div>
+
+    <div class="page-wrapper p-t-100 p-b-100 font-robo">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-1">
+                <div class="card-heading text-center pt-5">
+                    <img src="~/dist/img/logo.png" width="250" alt="">
+                </div>
+                <div class="card-body">
+                    <h2 class="title">نموذج إتمام الشراء</h2>
+                    <form>
+                        <div class="form-group">
+                            <input id="Name" class="form-control" type="text" placeholder="الإسم" name="name">
+                            <small id="NameError" style="display:none" class="text-danger error">من فضلك ادخل اسم</small>
+                        </div>
+                        <div class="form-group">
+                            <input id="Phone" class="form-control" type="number"autocomplete="off" placeholder="رقم التليفون" name="name">
+                            <small id="PhoneError" style="display:none" class="text-danger error">من فضلك ادخل رفم التيلفون</small>
+                            <small id="PhoneError2" style="display:none" class="text-danger error">رقم التليفون مكون من 11 رقم</small>
+                            <small id="PhoneError3" style="display:none" class="text-danger error">من فضلك ادخل رقم التليفون صحيح</small>
+                        </div>
+                        <div class="form-group">
+                            <input id="email" class="form-control" type="email" placeholder="البريد الإلكتروني" name="name">
+                            <small id="emailError" style="display:none" class="text-danger error">من فضلك ادخل البريد الاكتروني</small>
+                            <small id="emailError2" style="display:none" class="text-danger error">
+                                من فضلك ادخل البريد الالكتروني صحيح
+                            </small>
+
+                        </div>
+                        <div class="form-group">
+                            <input id="Adress" class="form-control" type="text" placeholder="العنوان" name="name">
+                            <small id="AdressError" style="display:none" class="text-danger error">من فضلك ادخل العنوان</small>
+                        </div>
+
+
+                        <div class="p-t-20 text-center">
+                            <button class="btn btn-primary buyDone" type="button">إتمام الشراء</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-looder" style="top: 327px; right: 124px;">
+        <div class="modal-dialog">
+
+            <div class="loader"></div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</section>
+<!-- Main JS-->
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })</script>
+
+<script>
+    $(document).ready(function () {
+        $('.searchBox2').remove();
+        cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.id) : [];
+        OffercartArr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')).map(e => e.id) : [];
+        if (cartArr.length == 0 && OffercartArr.length == 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'سلة التسوق فارغة',
+                confirmButtonText: `الذهاب للصفحة الرئيسية`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    window.location = "/User/Index"
+                }
+            })
+        }
+    })
+    $('.buyDone').click(() => {
+
+        $('.error').hide();
+        var name = $('#Name').val();
+        var phone = $('#Phone').val();
+        var email = $('#email').val();
+        var adress = $('#Adress').val();
+        var regEx = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var validEmail = regEx.test(email);
+        var keyPhone = phone.substring(0, 3);
+        cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.id) : [];
+        QuantityArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.value) : [];
+        OffercartArr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')).map(e => e.id) : [];
+        Offerqunti = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')).map(e => e.value) : [];
+        debugger;
+        if (name == "" || name == null) {
+            $('#NameError').show();
+        }
+        else if (phone == "" || phone == null) {
+            $('#PhoneError').show();
+        }
+        else if (phone.length != 11) {
+            $('#PhoneError2').show();
+        }
+        else if (keyPhone != "010" && keyPhone != "011" && keyPhone != "012" && keyPhone != "015") {
+            $('#PhoneError3').show();
+        }
+        else if (email == "" || email == null) {
+            $('#emailError').show();
+        }
+        else if (!validEmail) {
+            $('#emailError2').show();
+
+        }
+        else if (adress == "" || adress == null) {
+            $('#AdressError').show();
+        }
+        else {
+            //$("#modal-looder").modal('show');
+            //$('#modal-looder').modal({
+            //    backdrop: 'static',
+            //    keyboard: false
+            //});
+            $.ajax({
+                url: "/User/AddOrder?ClientName=" + name + "&Phone=" + phone + "&E_Mail=" + email + "&Adress=" + adress + "&ProudctIds=" + cartArr + "&Quantity=" + QuantityArr + "&OfferIds=" + OffercartArr + "&Quantity_offer=" + Offerqunti,
+                type: "POST",
+                success: function (result) {
+
+                    if (result == true) {
+
+                        Swal.fire({
+                            title: 'سيتم التواصل معك قريبًا',
+                            icon: 'success',
+                            html: 'نشكرك على ثقتك بنا',
+
+                            confirmButtonText: `الذهاب للصفحة الرئيسية`,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                localStorage.removeItem("easy-dose-cart");
+                                localStorage.removeItem("easy-dose-cart-offer");
+                                window.location = "/User/Index"
+                            }
+                        })
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+        //Swal.fire({
+        //    title: 'سيتم التواصل معك قريبًا',
+        //    icon: 'success',
+        //    html: 'نشكرك على ثقتك بنا',
+
+        //    confirmButtonText: `الذهاب للصفحة الرئيسية`,
+        //}).then((result) => {
+        //    /* Read more about isConfirmed, isDenied below */
+        //    if (result.isConfirmed) {
+        //        window.location = '/';
+        //    }
+        //})
+    })
+</script>

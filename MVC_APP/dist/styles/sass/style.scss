@@ -1,0 +1,244 @@
+    @import'custom_variables';
+    @import './bootstrap/bootstrap';
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap');
+    body {
+        font-family: 'Cairo', sans-serif;
+        box-sizing: border-box;
+        direction: rtl;
+        height: 100%;
+    }
+    
+    html {
+        height: 100%;
+    }
+    
+    //  Strat Header
+    .header {
+        & {
+            box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+        form {
+            input {
+                border-radius: 0 8px 8px 0;
+                border-left: 0;
+                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+                font-weight: 400;
+                height: 45px;
+            }
+            button {
+                border-radius: 8px 0 0 8px;
+                -webkit-border-radius: 8px 0 0 8px;
+                -moz-border-radius: 8px 0 0 8px;
+                -ms-border-radius: 8px 0 0 8px;
+                -o-border-radius: 8px 0 0 8px;
+            }
+        }
+        a {
+            font-weight: 600;
+            text-decoration: none;
+        }
+        a {
+            i {
+                font-size: 25px;
+            }
+        }
+    }
+    
+    //Start department
+    .department {
+        p {
+            font-weight: 600;
+        }
+        a {
+            img {
+                transition: all .5s ease;
+            }
+            img:hover {
+                transform: scale(0.9);
+            }
+        }
+    }
+    
+    //owl-carousel
+    $x: 30px;
+    .owl-carousel .owl-nav button.owl-prev,
+    .owl-carousel .owl-nav button.owl-next {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: $x;
+        height: $x;
+        background-color: rgb(218, 216, 216) !important;
+        box-shadow: 0 0 6px #ddd;
+        color: rgb(97, 97, 97);
+        outline: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        padding: 10px !important;
+    }
+    
+    .owl-carousel .owl-nav button.owl-prev {
+        left: 10px;
+    }
+    
+    .owl-carousel .owl-nav button.owl-next {
+        right: 10px;
+    }
+    
+    .my-hover:hover {
+        box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
+        transition: .3s;
+        -webkit-transition: .3s;
+        -moz-transition: .3s;
+        -ms-transition: .3s;
+        -o-transition: .3s;
+    }
+    
+    .my-btn {
+        color: #14caba;
+        border: 1px solid #14caba;
+        transition: all .5s ease;
+        height: 40px;
+        border-radius: 8px;
+        background-color: transparent;
+        width: 120px;
+        text-align: center;
+        vertical-align: middle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .my-btn:hover {
+        background-color: #14caba;
+        color: #fff;
+    }
+    
+    .page-item .page-link {
+        transition: .5s;
+        margin: 0 5px;
+        position: relative;
+        display: block;
+        padding: 0.4rem 0.6rem;
+        background-color: #fff;
+        border: none;
+        -webkit-transition: .5s;
+        -moz-transition: .5s;
+        -ms-transition: .5s;
+        -o-transition: .5s;
+    }
+    
+    .page-item.active .page-link {
+        padding: 0.4rem 0.6rem;
+        background-color: rgba($color: $primary, $alpha: .1);
+        color: $primary;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+    
+    .page-item:hover .page-link {
+        padding: 0.4rem 0.6rem;
+        background-color: rgba($color: $primary, $alpha: .1);
+        color: $primary;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+    
+    option:hover {
+        background-color: $primary;
+    }
+    
+    .my-discond {
+        position: absolute;
+        text-align: center;
+        top: 17px;
+        left: -90px;
+        width: 100%;
+        z-index: 99;
+        font-weight: bold;
+        background-color: $secondary;
+        border: 1px solid $secondary;
+        color: #FFF;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-right: 8px;
+        padding-left: 8px;
+        font-size: 14px;
+        transform: rotate(-45deg);
+    }
+    
+    .Overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba($color: $secondary, $alpha: .9);
+    }
+    
+    .buy-page {
+        position: relative;
+        background-image: url(../../images/contentimg.jpg);
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
+    //contact page
+    .contact-bg {
+        & {
+            position: relative;
+            background-image: url(../../images/contentimg.jpg);
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .cards {
+            i {
+                font-size: 20px;
+            }
+        }
+    }
+    
+    //footer
+    .footer {
+        & {
+            box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+        li {
+            a {
+                color: #404040;
+                text-decoration: none;
+                transition: .5s ease-in-out;
+            }
+            a:hover {
+                padding-right: 10px;
+            }
+        }
+        a {
+            i {
+                font-size: 23px;
+                border: 15px solid white;
+                box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }

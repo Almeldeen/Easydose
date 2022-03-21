@@ -1,0 +1,550 @@
+﻿
+@{
+    ViewBag.Title = "AddCategory";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">التصنيفات</h3>
+                        </div>
+                        <div class="card ">
+
+                            <!-- form start -->
+                            <form>
+                                <input id="hdnid" style="display:none" />
+                                <div class="card-body" style="max-width: 400px;">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">إسم التصنيف</label>
+                                        <input name="CategoryName" type="text" class="form-control" id="txtCategoryName" placeholder="أدخل إسم التصنيف">
+                                        <small id="CategoryNameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">صورة للتصنيف</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input name="CategoryImage" type="file" class="custom-file-input" id="imageUpload">
+                                                <label class="custom-file-label" for="exampleInputFile">اضغط لإختيار الصورة</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <small style="display:none" id="imageUploadError" class="text-danger  error ">لايمكنك الاضافة بدون صورة</small>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="add" type="button" onclick="addCategory()" class="btn btn-primary">إضافة تصنيف جديد <small><em class="fa fa-plus"></em></small></button>
+                                    <button type="button" id="update" style="display:none" onclick="updateCategory()" class="btn btn-primary">تعديل تصنيف  <small><em class="fa fa-edit"></em></small></button>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-center">
+
+
+                            <a href="javascript:void(0);" onclick="Shows(1)" return false;>
+                                <span title="اظهار المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye"></em></span>
+                            </a>
+                            <a href="javascript:void(0);" onclick="Shows(2)" return false;>
+                                <span title="إخفاء المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye-slash"></em></span>
+                            </a>
+                            <a href="javascript:void(0);" onclick="DeletCategorys();" return false;>
+                                <span style="margin-right: 1%;" title="حذف المحدد" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span>
+                            </a>
+
+
+                        </div>
+                        <!-- table -->
+                        <div class="card-body table-responsive">
+                            <table id="tabel1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input onclick="selectAll()" class="custom-control-input  custom-control-input-outline" type="checkbox" id="selectall" value="option1">
+                                                <label for="selectall" class="custom-control-label"></label>
+                                            </div>
+                                        </th>
+                                        <th>الإسم</th>
+                                        <th>الصورة</th>
+                                        @*<th>عدد المنتجات</th>*@
+                                        <th>الإجراءات</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+<!-- /.content -->
+<!-- /.content-wrapper -->
+<!-- Control Sidebar -->
+
+
+<script>
+    var categoris = [];
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#category').addClass('active');
+        LoadALLCategory();
+    });
+    function selectAll() {
+
+        var che = $('#selectall').is(':checked') ? 1 : 0;
+
+        if (che == 1) {
+            $('input[type=checkbox]').each(function () {
+
+                var id = $(this).val();
+                $('#tr_' + id).attr('checked', 'checked');
+                //
+                //('#tr_' + id).prop("checked", true);
+            });
+        }
+        else if (che == 0) {
+            $('input[type=checkbox]').each(function () {
+                var id = $(this).val();
+                $('#tr_' + id).removeAttr('checked');
+            });
+        }
+    }
+    function addCategory() {
+
+        var categoryName = $('#txtCategoryName').val();
+        var image = $('#imageUpload').val()
+        $('.error').hide();
+        if (categoryName == "" || categoryName == null) {
+            $('#CategoryNameError').show();
+        }
+        else if (image == "" || image == null) {
+            $('#imageUploadError').show();
+        }
+        else {
+            var fd = new FormData();
+
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUpload").files.length;
+
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUpload").files[i];
+                formData.append("imageUpload", file);
+            }
+            $.ajax({
+                url: "/Admin/AddCategory?Name=" + categoryName,
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#txtCategoryName').val("");
+                        $('#imageUpload').val("")
+                        LoadALLCategory();
+                    }
+                    else {
+                        console.log(result);
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+    }
+    function LoadALLCategory() {
+        $.ajax({
+            url: "/Admin/LoadAllCategory",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                categoris = result;
+
+                $('#tabel1').dataTable({
+                    destroy: true,
+                    data: result,
+                    "language": {
+                        "paginate": {
+                            "next": "التالي",
+                            "previous": "السابق"
+                        }
+                    },
+                    "info": true,
+                    "ordering": false,
+                    columns: [
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td>' +
+                                    '<div class="custom-control custom-checkbox">' +
+                                    '<input class="custom-control-input  custom-control-input-outline" type="checkbox" name="chck" id="tr_' + data.Id + '" value="' + data.Id + '">' +
+                                    '<label for="tr_' + data.Id + '" class="custom-control-label"></label>' +
+                                    '</div></td>'
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td style="vertical-align: middle;">' + data.Name + '</td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return ' <td style="vertical-align: middle;">' +
+                                    '<img width="100" height="100" src="/Image/' + data.Image + '" alt=""></td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                var html = '<td class="d-flex"  style="vertical-align: middle;">' +
+                                    '<a href="javascript:void(0);" onclick=getCategory(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="تعديل" class="btn btn-primary /*swalDefaultSuccess*/"><em class="fa fa-edit"></em></span></a>';
+                                if (data.Show == "unVisable") {
+                                    html += '<span style="margin-right: 1%;" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+                                    html += '<span style="margin-right: 1%; display:none" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                                }
+                                else {
+                                    html += '<span style="margin-right: 1%;" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                                    html += '<span style="margin-right: 1%;display:none" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+
+                                }
+                                html += '<a href="javascript:void(0);" onclick=deletCategory(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="حذف" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span></a>' +
+                                    '</td>';
+                                return html;
+                            }
+                        },
+
+                    ],
+
+                })
+            }
+        });
+    }
+    function getCategory(id) {
+
+        $.each(categoris, function (key, item) {
+
+            if (id == item.Id) {
+                $('#hdnid').val(id);
+                $('#txtCategoryName').val(item.Name);
+                $('#add').hide();
+                $('#update').show();
+
+            }
+        });
+    }
+    function updateCategory() {
+        var id = $('#hdnid').val();
+        var categoryName = $('#txtCategoryName').val();
+        var image = $('#imageUpload').val()
+        $('.error').hide();
+
+        if (categoryName == "" || categoryName == null) {
+            $('#CategoryNameError').show();
+        }
+        else {
+            var imagecha = 0;
+            if (image != "") {
+                imagecha = 1;
+                var fd = new FormData();
+
+                var formData = new FormData();
+                var totalFiles = document.getElementById("imageUpload").files.length;
+
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("imageUpload").files[i];
+                    formData.append("imageUpload", file);
+                }
+            }
+            $.ajax({
+                url: "/Admin/UpdateCatgory?Id=" + id + "&Name=" + categoryName + "&imagecha=" + imagecha,
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم تعديل البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#txtCategoryName').val("");
+                        $('#imageUpload').val("")
+                        LoadALLCategory();
+                        $('#add').show();
+                        $('#update').hide();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+    function deletCategory(id) {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Admin/DeletCategory?Id=" + id,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result) {
+
+                        if (result == true) {
+                            Swal.fire(
+                                'تم الحذف!',
+                                'تم حذف البيانات.',
+                                'success'
+                            )
+                            LoadALLCategory();
+                        }
+                        else {
+                            Swal.fire(
+                                'حدث خطأ!',
+                                'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+            }
+        })
+    }
+    function Show(id, show) {
+        $.ajax({
+            url: "/Admin/ChangeShowStatus?Id=" + id + "&ShowStatus=" + show + "&from=Category",
+            type: "POST",
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+
+                if (result == true) {
+                    if (show == 1) {
+                        $('#unVisable_' + id).show();
+                        $('#Visable_' + id).hide();
+                    }
+                    else if (show == 2) {
+                        $('#unVisable_' + id).hide();
+                        $('#Visable_' + id).show();
+                    }
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم التحديث',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+            }
+        });
+    }
+    function Shows(show) {
+
+        var idList = [];
+        var id = "";
+        $('input[name="chck"]').each(function () {
+
+            var sThisVal = (this.checked ? "1" : "0")
+            if (sThisVal == 1) {
+                id = $(this).val();
+                idList.push(id);
+            }
+
+
+        });
+        if (idList.length > 0) {
+            $.ajax({
+                url: "/Admin/ChangeShowStatus_All?Ids=" + idList + "&ShowStatus=" + show + "&from=Category",
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم التحديث',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        LoadALLCategory();
+                        $('#selectall').removeAttr("checked")
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                position: 'middel',
+                icon: 'error',
+                title: 'لم يتم اختيار اي تصنيف',
+                showConfirmButton: false,
+                timer: 1800
+            })
+        }
+
+    }
+    function DeletCategorys() {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var idList = [];
+                var id = "";
+                $('input[name="chck"]').each(function () {
+
+                    var sThisVal = (this.checked ? "1" : "0")
+                    if (sThisVal == 1) {
+                        id = $(this).val();
+                        idList.push(id);
+                    }
+
+
+                });
+
+                if (idList.length > 0) {
+                    $.ajax({
+                        url: "/Admin/DeletCategorys?categoryIDs=" + idList,
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",
+                        //dataType: "json",
+                        success: function (result) {
+
+
+                            if (result == true) {
+                                Swal.fire(
+                                    'تم الحذف!',
+                                    'تم حذف البيانات.',
+                                    'success'
+                                )
+                                LoadALLCategory();
+                            }
+                            else {
+                                Swal.fire(
+                                    'حدث خطأ!',
+                                    'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                    'error'
+                                )
+                            }
+                            LoadALLCategory();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'لم يتم اختيار اي تصنيف',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+
+            }
+        })
+
+
+    }
+</script>

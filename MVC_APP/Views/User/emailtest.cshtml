@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "emailtest";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+    <form>
+        <div class="form-group">
+            <input id="Name" class="form-control" type="text" placeholder="الإسم" name="name">
+            <small id="NameError" style="display:none" class="text-danger error">من فضلك ادخل اسم</small>
+        </div>
+        <div class="form-group">
+            <textarea id="Phone" class="form-control" type="text" placeholder="رقم التليفون" name="name"></textarea>
+            <small id="PhoneError" style="display:none" class="text-danger error">من فضلك ادخل رفم التيلفون</small>
+            <small id="PhoneError2" style="display:none" class="text-danger error">رقم التليفون مكون من 11 رقم</small>
+            <small id="PhoneError3" style="display:none" class="text-danger error">من فضلك ادخل رقم التليفون صحيح</small>
+        </div>
+       
+
+
+        <div class="p-t-20 text-center">
+            <button onclick="email()" class="btn btn-primary buyDone" type="button">إتمام الشراء</button>
+        </div>
+    </form>
+<script>
+    function email() {
+           var name = $('#Name').val();
+    var phone = $('#Phone').val();
+     $.ajax({
+                url: "/User/EmailUser?name=" + name + "&feedback=" + phone ,
+                type: "POST",
+                success: function (result) {
+
+                    if (result == true) {
+
+                       Swal.fire({
+                            position: 'middel',
+                            icon: 'sucess',
+                          
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+    }
+   
+</script>

@@ -1,0 +1,423 @@
+﻿
+@{
+    ViewBag.Title = "Ads";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+<div class="content">
+    <div class="container-fluid ">
+        <div class="col-12 py-4">
+            <h3>الصور المتحركة</h3>
+            <p>يمكنك إضافة أكثر من صورة لتظهر أعلى الصفحة الرئيسية</p>
+
+
+            <form id="imgs-form">
+                <div class="card-body" style="max-width: 400px;">
+                    <div class="text-success mb-3">مقاسات الصور: 1500 بيكسل عرض و 550 بيكسل طول</div>
+                    <div id="banner-imgs" class="form-group">
+                        <div class="form-group ">
+                            <label for="adsImgUp1">صورة إعلان 1</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="image/*" required type="file" class="custom-file-input" id="imageUpload1">
+                                    <small class="text-danger d-block ">error</small>
+                                    <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="adsImgUp1">صورة إعلان2</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="image/*" required type="file" class="custom-file-input" id="imageUpload2">
+                                    <small class="text-danger d-block ">error</small>
+                                    <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="adsImgUp1">صورة إعلان 3</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="image/*" required type="file" class="custom-file-input" id="imageUpload3">
+                                    <small class="text-danger d-block ">error</small>
+                                    <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="adsImgUp1">صورة إعلان 4</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="image/*" required type="file" class="custom-file-input" id="imageUpload4">
+                                    <small class="text-danger d-block ">error</small>
+                                    <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="adsImgUp1">صورة إعلان 5</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input accept="image/*" required type="file" class="custom-file-input" id="imageUpload5">
+                                    <small class="text-danger d-block ">error</small>
+                                    <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button onclick="AddSliders()" type="button" class="btn btn-primary">تأكيد</button>
+                </div>
+            </form>
+
+            <hr>
+            <h3>صور الإعلانات</h3>
+            <p class="m-0">يمكنك إضافة حتى 4 صور إعلانات ليظهروا في الموقع</p>
+            <small class="text-success">يجب أن تكون الصور بمقاس 550 بيكسل عرض و 350 بيكسل طول</small>
+            <form id="ads-form" action="" method="POST">
+                <div class="card-body">
+                    <p>قسم الإعلان العلوي:</p>
+                    <div class="form-group col-md-6">
+                        <label for="adsImgUp1">صورة إعلان 1</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgUp1">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="adsImgUp2">صورة إعلان 2</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgUp2">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgUp2">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button onclick="AddUpAds()" type="button" class="btn btn-primary">تأكيد</button>
+                    </div>
+                    <hr>
+                    <p>قسم الإعلان الوسط:</p>
+                    <div class="form-group col-md-6">
+                        <label for="adsImgUp1">صورة إعلان 3</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgMid1">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgUp1">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="adsImgUp2">صورة إعلان 4</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgMid2">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgUp2">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button" onclick="AddMidAds()" class="btn btn-primary">تأكيد</button>
+                    </div>
+                    <hr>
+                    <p>قسم الإعلان السفلي:</p>
+
+                    <div class="form-group col-md-6">
+                        <label for="adsImgDown1">صورة إعلان 5</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgDown1">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgDown1">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="adsImgDown2">صورة إعلان 6</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input accept="image/*" required type="file" class="custom-file-input" id="adsImgDown2">
+                                <small class="text-danger d-block ">error</small>
+                                <label class="custom-file-label" for="adsImgDown2">اضغط لإختيار الصورة</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button onclick="AddDownAds()" type="button" class="btn btn-primary">تأكيد</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+
+<script>
+    $(document).ready(() => {
+        $('.nav-link').removeClass('active');
+        $('#Offer').addClass('active');
+        $('#AddAdsbar').addClass('active');
+        $('#numOfImgs').change(function (e) {
+            addImgsFun(e.target.value);
+        })
+    })
+
+
+
+
+    function AddSliders() {
+         
+        var j = 1;
+        var formData = new FormData();
+        var chck = false;
+
+         
+        //var images = $(this).find("input").val();
+        var fd = new FormData();
+         
+
+        var totalFiles1 = document.getElementById("imageUpload1").files.length;
+        for (var i = 0; i < totalFiles1; i++) {
+            var file1 = document.getElementById("imageUpload1").files[i];
+            formData.append("imageUpload1", file1);
+        }
+        var totalFiles2 = document.getElementById("imageUpload2").files.length;
+        for (var i = 0; i < totalFiles2; i++) {
+            var file2 = document.getElementById("imageUpload2").files[i];
+            formData.append("imageUpload2", file2);
+        }
+        var totalFiles3 = document.getElementById("imageUpload3").files.length;
+        for (var i = 0; i < totalFiles3; i++) {
+            var file3 = document.getElementById("imageUpload3").files[i];
+            formData.append("imageUpload3", file3);
+        }
+        var totalFiles4 = document.getElementById("imageUpload4").files.length;
+        for (var i = 0; i < totalFiles4; i++) {
+            var file4 = document.getElementById("imageUpload4").files[i];
+            formData.append("imageUpload4", file4);
+        }
+        var totalFiles5 = document.getElementById("imageUpload5").files.length;
+        for (var i = 0; i < totalFiles5; i++) {
+            var file5 = document.getElementById("imageUpload5").files[i];
+            formData.append("imageUpload5", file5);
+        }
+        $.ajax({
+            url: "/Admin/AddAds",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+                 
+                if (result == true) {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم حفظ البيانات',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+            }
+        });
+
+
+    }
+    function AddUpAds() {
+         
+        var j = 1;
+        var formData = new FormData();
+        var chck = false;
+
+         
+        //var images = $(this).find("input").val();
+        var fd = new FormData();
+         
+
+        var totalFiles1 = document.getElementById("adsImgUp1").files.length;
+        for (var i = 0; i < totalFiles1; i++) {
+            var file1 = document.getElementById("adsImgUp1").files[i];
+            formData.append("adsImgUp1", file1);
+        }
+        var totalFiles2 = document.getElementById("adsImgUp2").files.length;
+        for (var i = 0; i < totalFiles2; i++) {
+            var file2 = document.getElementById("adsImgUp2").files[i];
+            formData.append("adsImgUp2", file2);
+        }
+
+        $.ajax({
+            url: "/Admin/AddUpAds",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+                 
+                if (result == true) {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم حفظ البيانات',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+            }
+        });
+    }
+    function AddMidAds() {
+         
+        var j = 1;
+        var formData = new FormData();
+        var chck = false;
+
+         
+        //var images = $(this).find("input").val();
+        var fd = new FormData();
+         
+
+        var totalFiles1 = document.getElementById("adsImgMid1").files.length;
+        for (var i = 0; i < totalFiles1; i++) {
+            var file1 = document.getElementById("adsImgMid1").files[i];
+            formData.append("adsImgMid1", file1);
+        }
+        var totalFiles2 = document.getElementById("adsImgMid2").files.length;
+        for (var i = 0; i < totalFiles2; i++) {
+            var file2 = document.getElementById("adsImgMid2").files[i];
+            formData.append("adsImgMid2", file2);
+        }
+
+        $.ajax({
+            url: "/Admin/AddMidAds",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+                 
+                if (result == true) {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم حفظ البيانات',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+            }
+        });
+    }
+    function AddDownAds() {
+         
+        var j = 1;
+        var formData = new FormData();
+        var chck = false;
+
+         
+        //var images = $(this).find("input").val();
+        var fd = new FormData();
+         
+
+        var totalFiles1 = document.getElementById("adsImgDown1").files.length;
+        for (var i = 0; i < totalFiles1; i++) {
+            var file1 = document.getElementById("adsImgDown1").files[i];
+            formData.append("adsImgDown1", file1);
+        }
+        var totalFiles2 = document.getElementById("adsImgDown2").files.length;
+        for (var i = 0; i < totalFiles2; i++) {
+            var file2 = document.getElementById("adsImgDown2").files[i];
+            formData.append("adsImgDown2", file2);
+        }
+
+        $.ajax({
+            url: "/Admin/AddDownAds",
+            type: "POST",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+                 
+                if (result == true) {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم حفظ البيانات',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+            }
+        });
+    }
+</script>
+
+

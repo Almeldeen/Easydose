@@ -1,0 +1,1071 @@
+﻿
+@{
+    ViewBag.Title = "MangeProudct";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">إدارة المنتجات</h3>
+                        </div>
+
+                        <div class="row justify-content-between mx-2 align-items-center my-3">
+                            @*<div class="my-3 mx-auto">
+                                    <label>فلتر بواسطة التصنيف</label>
+                                    <select onchange="filter()" id="Category" class="custom-select">
+                                        <option value="0">الكل</option>
+                                        @foreach (var item in ViewBag.Category)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+
+                                    </select>
+                                </div>
+                                <div class="my-3 mx-auto">
+                                    <label>فلتر بواسطة الماركة</label>
+                                    <select onchange="filter()" id="Brand" class="custom-select">
+                                        <option value="0">الكل</option>
+                                        @foreach (var item in ViewBag.Brand)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+
+                                    </select>
+                                </div>*@
+                            <div class="mx-auto">
+                                <a href="javascript:void(0);" onclick="Shows(1)" return false;>
+                                    <span title="اظهار المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye"></em></span>
+                                </a>
+                                <a href="javascript:void(0);" onclick="Shows(2)" return false;>
+                                    <span title="إخفاء المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye-slash"></em></span>
+                                </a>
+                                <a href="javascript:void(0);" return false;>
+                                    <span style="margin-right: 1%;" title="أضف خصم" data-toggle="modal" data-target="#modal-default2" class="btn btn-success"><em class="fa fa-bookmark"></em></span>
+                                </a>
+                                <a href="javascript:void(0);" ; return false;>
+                                    <span style="margin-right: 1%;" title="أضف الي عرض" data-toggle="modal" data-target="#modal-Offer2" class="btn btn-success"><em class="fa fa-tag"></em></span>
+                                </a>
+                                <a href="javascript:void(0);" onclick="DeletProudcts();" return false;>
+                                    <span style="margin-right: 1%;" title="حذف المحدد" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span>
+                                </a>
+
+                            </div>
+                        </div>
+                        <input style="width: 20%;margin-right: 2%;margin-bottom: 1%; margin-top: 1%;" type="search" id="search" class="form-control" placeholder="ابحث هنا" />
+                        <!-- pagination -->
+                        <nav style="margin-right: 41%;" aria-label="Page navigation example">
+                            <ul class="pagination">
+                            </ul>
+                        </nav>
+                        <!-- table -->
+                        <div class="card-body table-responsive">
+                            <table id="tabel1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input onclick="selectAll()" class="custom-control-input  custom-control-input-outline" type="checkbox" id="selectall" value="option1">
+                                                <label for="selectall" class="custom-control-label"></label>
+                                            </div>
+                                        </th>
+                                        <th>الإسم</th>
+                                        <th>الصورة</th>
+                                        <th>السعر</th>
+                                        <th>نسبة الخصم</th>
+                                        <th>قيمة الخصم</th>
+                                        <th> السعر بعد الخصم</th>
+                                        <th>التصنيف</th>
+                                        <th>الماركة</th>
+                                        <th>المصدر</th>
+                                        <th>العرض</th>
+                                        <th>الوصف عربي</th>
+                                        <th>الوصف انجليزي</th>
+                                        <th>الإجراءات</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <!-- pagination -->
+                        <nav style="margin-right: 41%;" aria-label="Page navigation example">
+                            <ul class="pagination">
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">إضافة عرض على المنتج</h4>
+                <button type="button" class="close float-left m-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input id="hdn" style="display:none" />
+            <div class="modal-body">
+                <form name="addOffer">
+                    <div class="">
+                        <div class="form-group">
+                            <label for="discount">نسبة الخصم</label>
+                            <div class="d-flex align-items-center">
+                                <input name="offer" type="number" class="form-control ml-1" id="discount" required placeholder="أدخل رقم النسبة">
+                                <span>%</span>
+                            </div>
+                            <label for="discount2">قيمة الخصم</label>
+                            <div class="d-flex align-items-center">
+                                <input name="offer" type="number" class="form-control ml-1" id="discount2" required placeholder="أدخل رقم القيمة">
+
+                            </div>
+                            <small style="display:none" id="discountError" class="text-danger  error ">لايمكن الاضافة بدون نسبة او قيمة للخصم</small>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">إلغاء</button>
+                <button onclick="AddDiscount()" data-dismiss="modal" id="addDiscount" type="button" class="btn btn-primary">إضافة الخصم</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-default2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">إضافة عرض على المنتج</h4>
+                <button type="button" class="close float-left m-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input id="hdn" style="display:none" />
+            <div class="modal-body">
+                <form name="addOffer">
+                    <div class="">
+                        <div class="form-group">
+                            <label for="discount2">نسبة الخصم</label>
+                            <div class="d-flex align-items-center">
+                                <input name="offer" type="number" class="form-control ml-1" id="discount12" required placeholder="أدخل رقم النسبة">
+                                <span>%</span>
+                            </div>
+                            <label for="discount22">قيمة الخصم</label>
+                            <div class="d-flex align-items-center">
+                                <input name="offer" type="number" class="form-control ml-1" id="discount22" required placeholder="أدخل رقم القيمة">
+
+                            </div>
+                            <small style="display:none" id="discountError2" class="text-danger  error ">لايمكن الاضافة بدون نسبة او قيمة للخصم</small>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">إلغاء</button>
+                <button onclick="AddDiscounts()" data-dismiss="modal" id="addDiscount" type="button" class="btn btn-primary">إضافة الخصم</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-Offer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">إضافة المنتج الي عرض</h4>
+                <button type="button" class="close float-left m-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input id="hdn2" style="display:none" />
+            <div class="modal-body">
+                <form name="addOffer">
+                    <div class="">
+                        <div class="form-group">
+                            <label for="Ads">العروض</label>
+                            <div class="d-flex align-items-center">
+                                <select required id="Ads" class="custom-select form-control w-100" style="min-width: 200px;" name="categoriesFilter" multiple>
+                                </select>
+                            </div>
+                            <small style="display:none" id="AdsError" class="text-danger  error ">لايمكن الاضافة بدون عرض</small>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">إلغاء</button>
+                <button onclick="AddOffer_proudct()" data-dismiss="modal" id="addOffer" type="button" class="btn btn-primary">إضافة </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-Offer2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">إضافة المنتج الي عرض</h4>
+                <button type="button" class="close float-left m-0 mr-auto" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <input id="hdn2" style="display:none" />
+            <div class="modal-body">
+                <form name="addOffer">
+                    <div class="">
+                        <div class="form-group">
+                            <label for="Ads2">العروض</label>
+                            <div class="d-flex align-items-center">
+
+                                <select required id="Ads2" class="custom-select">
+                                </select>
+                            </div>
+                            <small style="display:none" id="AdsError2" class="text-danger  error ">لايمكن الاضافة بدون عرض</small>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">إلغاء</button>
+                <button onclick="AddOffer_proudcts()" data-dismiss="modal" id="addOffer" type="button" class="btn btn-primary">إضافة </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#proudct').addClass('active');
+        $('#Editproudctbar').addClass('active');
+        LoadAllProudct(1);
+       LoadALLOffer()
+    });
+    var CurrentPage1;
+    function selectAll() {
+
+        var che = $('#selectall').is(':checked') ? 1 : 0;
+
+        if (che == 1) {
+            $('input[type=checkbox]').each(function () {
+
+                var id = $(this).val();
+                $('#tr_' + id).attr('checked', 'checked');
+                //
+                //('#tr_' + id).prop("checked", true);
+            });
+        }
+        else if (che == 0) {
+            $('input[type=checkbox]').each(function () {
+                var id = $(this).val();
+                $('#tr_' + id).removeAttr('checked');
+            });
+        }
+    }
+    function LoadAllProudct(pageNum) {
+        $.ajax({
+            url: "/Admin/LoadAllProudct?pageNumber=" + pageNum + "&pageSize=" + 10,
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                CurrentPage1 = result.CurrentPage;
+                binddata(result.Data, result.TotalPages, result.CurrentPage);
+            }
+        });
+    }
+    function filter() {
+
+        var category_id = $('#Category').val();
+        var brand_id = $('#Brand').val();
+
+        $.ajax({
+            url: "/Admin/FilterProudct?category_id=" + category_id + "&brand_id=" + brand_id,
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                binddata(result)
+
+            }
+        });
+    }
+    function binddata(Data, TotalPages, CurrentPage) {
+        $(".pagination").empty();
+        result = Data;
+        $('#tabel1').dataTable({
+            destroy: true,
+            data: result,
+
+            "info": true,
+            "ordering": false,
+            "bPaginate": false,
+            "bInfo": false,
+            searching: false,
+            columns: [
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td>' +
+                            '<div class="custom-control custom-checkbox">' +
+                            '<input class="custom-control-input  custom-control-input-outline" type="checkbox" name="chck" id="tr_' + data.Id + '" value="' + data.Id + '">' +
+                            '<label for="tr_' + data.Id + '" class="custom-control-label"></label>' +
+                            '</div></td>'
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td style="vertical-align: middle;">' + data.Name + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return ' <td style="vertical-align: middle;">' +
+                            '<img width="100" height="100" src="/Image/' + data.Image + '" alt=""></td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td style="vertical-align: middle;">' + data.Price + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td style="vertical-align: middle;">%' + data.Discount_per + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td style="vertical-align: middle;">' + data.Discount_num + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        return '<td style="vertical-align: middle;">' + data.TotalPrice + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        var html = '<td style="vertical-align: middle;">';
+                        var i = 1;
+                        $.each(data.CategoryNames, function (key, item) {
+
+                            html += item;
+                            if (data.CategoryNames.length != i) {
+                                html += ' - ';
+                            }
+                            i++;
+                        })
+                        html += '</td>';
+                        return html;
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        if (data.BrandName == null) {
+                            return '<td style="vertical-align: middle;"> لا يوجد ماركة </td>';
+                        }
+                        return '<td style="vertical-align: middle;">' + data.BrandName + '</td>';
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        if (data.wherestatus == null) {
+                            return '<td style="vertical-align: middle;"> لا يوجد مصدر </td>';
+                        }
+                        if (data.wherestatus == "imported") {
+                            return '<td style="vertical-align: middle;"> مستورد </td>';
+                        }
+                        else if (data.wherestatus == "local") {
+                            return '<td style="vertical-align: middle;"> محلي </td>';
+                        }
+
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        debugger;
+                        if (data.OfferNames.length ==0 ) {
+                            return '<td style="vertical-align: middle;"> لايوجد عرض </td>';
+
+                        }
+                        else {
+                             var html = '<td style="vertical-align: middle;">';
+                        var i = 1;
+                        $.each(data.OfferNames, function (key, item) {
+                            debugger;
+                            html += item;
+                            if (data.OfferNames.length != i) {
+                                html += ' - ';
+                            }
+                            i++;
+                        })
+                        html += '</td>';
+return html;
+                        }
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        if (data.Description_A == null) {
+                            return '<td style="vertical-align: middle;"> لايوجد وصف </td>';
+
+                        }
+                        else {
+                            return '<td style="vertical-align: middle;"> <textarea readonly cols="25" rows="3" ">' + data.Description_A + '</textarea></td>';
+
+                        }
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        if (data.Description_E == null) {
+                            return '<td style="vertical-align: middle;"> لايوجد وصف </td>';
+
+                        }
+                        else {
+                            return '<td style="vertical-align: middle;"> <textarea readonly cols="25" rows="3" ">' + data.Description_E + '</textarea></td>';
+
+                        }
+                    }
+                },
+                {
+                    'data': null,
+                    render: function (data, type, row) {
+                        var html = '<td class="d-flex" style="vertical-align: middle;">' +
+                            '<a href="/Admin/EditProudct?id=' + data.Id + '"  return false;>' +
+                            '<span style="margin-right: 1%;" title="تعديل" class="btn btn-primary "><em class="fa fa-edit"></em></span></a>';
+
+                        if (data.Show == "unVisable") {
+                            html += '<span style="margin-right: 1%;" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+                            html += '<span style="margin-right: 1%; display:none" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                        }
+                        else {
+                            html += '<span style="margin-right: 1%;" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                            html += '<span style="margin-right: 1%;display:none" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+
+                        }
+                        html += '<a href="javascript:void(0);" onclick=getid(' + data.Id + '); return false;>' +
+                            '<span style="margin-right: 1%;" title="أضف خصم"   data-toggle="modal" data-target="#modal-default" class="btn btn-success"><em class="fa fa-bookmark"></em></span></a>' +
+                            '<a href="javascript:void(0);" onclick=getid2(' + data.Id + '); return false;>' +
+                            '<span style="margin-right: 1%;" title="أضف الي عرض"   data-toggle="modal" data-target="#modal-Offer" class="btn btn-success"><em class="fa fa-tag"></em></span></a>' +
+                            '<a href="javascript:void(0);" onclick=deletBrand(' + data.Id + '); return false;>' +
+                            '<span style="margin-right: 1%;" title="حذف" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span></a>' +
+                            '</td>';
+                        return html;
+                    }
+                },
+
+            ],
+
+        })
+        PaggingTemplate(TotalPages, CurrentPage)
+    }
+    function deletBrand(id) {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Admin/DeletProudct?Id=" + id,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result) {
+
+                        if (result == true) {
+                            Swal.fire(
+                                'تم الحذف!',
+                                'تم حذف البيانات.',
+                                'success'
+                            )
+                            LoadAllProudct();
+                        }
+                        else {
+                            Swal.fire(
+                                'حدث خطأ!',
+                                'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+            }
+        })
+    }
+    function AddDiscount() {
+        debugger;
+        var discount = $('#discount').val();
+        var discount2 = $('#discount2').val();
+        var id = $('#hdn').val()
+        $('#discountError').hide();
+        if ((discount == "" || discount == null) && (discount2 == "" || discount2 == null)) {
+            $('#discountError').show();
+        }
+        else {
+            $.ajax({
+                url: "/Admin/AddDiscount?Id=" + id + "&Discount_per=" + discount + "&Discount_num=" + discount2,
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#discount').val("")
+                        LoadAllProudct();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+    function getid(id) {
+        $('#hdn').val(id);
+    }
+    function getid2(id) {
+        $('#hdn2').val(id);
+    }
+    function LoadALLOffer() {
+        $.ajax({
+            url: "/Admin/LoadAllOffer",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                var html = '<option value="0">الغاء العروض</option>';
+                $.each(result, function (key, item) {
+                    html += '<option value="' + item.Id + '">' + item.OfferName + '</option>';
+                });
+                $('#Ads').html(html);
+                $('#Ads2').html(html);
+            }
+        });
+    }
+    function AddOffer_proudct() {
+        var proudct_id = $('#hdn2').val();
+        var offer_id = $('#Ads').val();
+        $('#AdsError').hide();
+        if (offer_id == -1 || offer_id == "" || offer_id == null) {
+            $('#AdsError').show();
+        }
+        else {
+            $.ajax({
+                url: "/Admin/AddOffer_proudct?proudct_id=" + proudct_id + "&offer_id=" + offer_id,
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#Ads').val(-1)
+                        LoadAllProudct();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+    }
+    function Show(id, show) {
+
+
+        $.ajax({
+            url: "/Admin/ChangeShowStatus?Id=" + id + "&ShowStatus=" + show + "&from=Proudct",
+            type: "POST",
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+
+                if (result == true) {
+                    if (show == 1) {
+                        $('#unVisable_' + id).show();
+                        $('#Visable_' + id).hide();
+                    }
+                    else if (show == 2) {
+                        $('#unVisable_' + id).hide();
+                        $('#Visable_' + id).show();
+                    }
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم التحديث',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+            }
+        });
+    }
+    function Shows(show) {
+
+        var idList = [];
+        var id = "";
+        $('input[name="chck"]').each(function () {
+
+            var sThisVal = (this.checked ? "1" : "0")
+            if (sThisVal == 1) {
+                id = $(this).val();
+                idList.push(id);
+            }
+
+
+        });
+        if (idList.length > 0) {
+            $.ajax({
+                url: "/Admin/ChangeShowStatus_All?Ids=" + idList + "&ShowStatus=" + show + "&from=Proudct",
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم التحديث',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        LoadALLCategory();
+                        $('#selectall').removeAttr("checked")
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+        else {
+            Swal.fire({
+                position: 'middel',
+                icon: 'error',
+                title: 'لم يتم اختيار اي تصنيف',
+                showConfirmButton: false,
+                timer: 1800
+            })
+        }
+
+    }
+    function DeletProudcts() {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var idList = [];
+                var id = "";
+                $('input[name="chck"]').each(function () {
+
+                    var sThisVal = (this.checked ? "1" : "0")
+                    if (sThisVal == 1) {
+                        id = $(this).val();
+                        idList.push(id);
+                    }
+
+
+                });
+
+                if (idList.length > 0) {
+                    $.ajax({
+                        url: "/Admin/DeletProudcts?ProudctsIDs=" + idList,
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",
+                        //dataType: "json",
+                        success: function (result) {
+
+
+                            if (result == true) {
+                                Swal.fire(
+                                    'تم الحذف!',
+                                    'تم حذف البيانات.',
+                                    'success'
+                                )
+                                LoadAllProudct();
+                                $('#selectall').removeAttr("checked")
+                            }
+                            else {
+                                Swal.fire(
+                                    'حدث خطأ!',
+                                    'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                    'error'
+                                )
+                            }
+
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'لم يتم اختيار اي صنف',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+
+            }
+        })
+
+
+    }
+    function AddDiscounts() {
+        debugger;
+        var idList = [];
+        var id = "";
+        $('input[name="chck"]').each(function () {
+
+            var sThisVal = (this.checked ? "1" : "0")
+            if (sThisVal == 1) {
+                id = $(this).val();
+                idList.push(id);
+            }
+
+
+        });
+
+        if (idList.length > 0) {
+            var discount = $('#discount12').val();
+            var discount2 = $('#discount22').val()
+            if ((discount == "" || discount == null) && (discount2 == "" || discount2 == null)) {
+                $('#discountError2').show();
+            } else {
+                $.ajax({
+                    url: "/Admin/AddDiscounts?ProudctsIDs=" + idList + "&Discount_per=" + discount + "&Discount_num=" + discount2,
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    //dataType: "json",
+                    success: function (result) {
+                        if (result == true) {
+                            debugger;
+                            Swal.fire({
+                                position: 'middel',
+                                icon: 'success',
+                                title: 'تم حفظ البيانات',
+                                showConfirmButton: false,
+                                timer: 1800
+                            })
+                            $('#discount2').val("")
+                            $('#discount22').val("")
+                            LoadAllProudct();
+                            $('#selectall').removeAttr("checked")
+                        }
+                        else {
+                            Swal.fire(
+                                'حدث خطأ!',
+                                'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                'error'
+                            )
+                        }
+
+                    }
+                });
+            }
+
+        } else {
+            Swal.fire({
+                position: 'middel',
+                icon: 'error',
+                title: 'لم يتم اختيار اي صنف',
+                showConfirmButton: false,
+                timer: 1800
+            })
+        }
+    }
+    function AddOffer_proudcts() {
+        debugger;
+        var idList = [];
+        var id = "";
+        $('input[name="chck"]').each(function () {
+
+            var sThisVal = (this.checked ? "1" : "0")
+            if (sThisVal == 1) {
+                id = $(this).val();
+                idList.push(id);
+            }
+
+
+        });
+
+        if (idList.length > 0) {
+            var offer_id = $('#Ads2').val();
+            $('#AdsError2').hide();
+            if (offer_id == -1 || offer_id == "" || offer_id == null) {
+                $('#AdsError2').show();
+            } else {
+                $.ajax({
+                    url: "/Admin/AddOffer_proudcts?ProudctsIDs=" + idList + "&offer_id=" + offer_id,
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    //dataType: "json",
+                    success: function (result) {
+                        if (result == true) {
+                            Swal.fire({
+                                position: 'middel',
+                                icon: 'success',
+                                title: 'تم حفظ البيانات',
+                                showConfirmButton: false,
+                                timer: 1800
+                            })
+                            $('#Ads').val(-1)
+                            LoadAllProudct();
+                            $('#selectall').removeAttr("checked")
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'middel',
+                                icon: 'error',
+                                title: 'حدث خطأ',
+                                showConfirmButton: false,
+                                timer: 1800
+                            })
+                        }
+
+                    }
+                });
+            }
+
+        } else {
+            Swal.fire({
+                position: 'middel',
+                icon: 'error',
+                title: 'لم يتم اختيار اي صنف',
+                showConfirmButton: false,
+                timer: 1800
+            })
+        }
+    }
+    function PaggingTemplate(totalPage, currentPage) {
+
+        var template = "";
+        var TotalPages = totalPage;
+        var CurrentPage = currentPage;
+        var PageNumberArray = Array();
+
+
+        var countIncr = 1;
+        if (currentPage != 1) {
+
+            for (var i = currentPage - 1; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage - 1;
+                if (PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        else {
+            for (var i = currentPage; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage;
+                if (totalPage != currentPage && PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        PageNumberArray = PageNumberArray.slice(0, 5);
+        var FirstPage = 1;
+        var LastPage = totalPage;
+        if (totalPage != currentPage) {
+            var ForwardOne = currentPage + 1;
+        }
+        var BackwardOne = 1;
+        if (currentPage > 1) {
+            BackwardOne = currentPage - 1;
+        }
+
+        //template = "<p>" + CurrentPage + " of " + TotalPages + " pages</p>"
+        template = template + '<li class="page-item">' +
+            '<a onclick="LoadAllProudct(' + BackwardOne + ')" class="page-link"  aria-label="Previous">' +
+            '<span aria-hidden="true">&laquo;</span>' +
+            '<span class="sr-only">Previous</span>' +
+            '</a>' +
+            '</li>';
+
+
+        var numberingLoop = "";
+        for (var i = 0; i < PageNumberArray.length; i++) {
+            if (PageNumberArray[i] == currentPage) {
+                numberingLoop = numberingLoop + '<li  class="page-item active"><a onclick="LoadAllProudct(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+            else {
+                numberingLoop = numberingLoop + '<li class="page-item"><a onclick="LoadAllProudct(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+
+        }
+        template = template + numberingLoop + '<li class="page-item">' +
+            ' <a  onclick="LoadAllProudct(' + ForwardOne + ')" class="page-link"  aria-label="Next">' +
+            '<span aria-hidden="true">&raquo;</span>' +
+            '<span class="sr-only">Next</span>' +
+            '</a>' +
+            '</li>';
+
+        $(".pagination").append(template);
+
+
+    }
+    function search() {
+        var sear = $('#search').val();
+        $.ajax({
+            url: "/Admin/LoadAllProudctSearch?search=" + sear + "&pageNumber=" + CurrentPage1 + "&pageSize=" + 10,
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+                binddata(result.Data, result.TotalPages, result.CurrentPage);
+            }
+        });
+    }
+    $("#search").autocomplete({
+            appendTo: "#searchBox",
+            minLength: 0,
+             source: function (request, response) {
+            $.ajax({
+                url: '@Url.Action("GetSearchValueAddd","User")',
+                dataType: "json",
+                data: { search: $("#search").val() },
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        debugger;
+                        return { label: item.Name, value: item.Name };
+                    }));
+                },
+
+            });
+        },
+            focus: function (event, ui) {
+                $("#search").val(ui.item.label);
+                return false;
+            },
+            select: function (event, ui) {
+                $("#search").val(ui.item.label);
+                btnsearch(ui.item.label);
+                return false;
+            }
+    })
+    $("#search").keyup(function () {
+        search();
+    })
+</script>
+

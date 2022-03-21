@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row my-3">
+                <section class="content row w-100">
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>@ViewBag.CountOrder</h3>
+
+                                <p>الطلبات الجديدة</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="/Admin/Orders" class="small-box-footer">تفاصيل</a>
+                        </div>
+                    </div>
+                    <!-- ===================== -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3>@ViewBag.CountProudct<sup style="font-size: 20px"></sup></h3>
+
+                                <p>عدد المنتجات</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a href="/Admin/MangeProudct" class="small-box-footer">تفاصيل</a>
+                        </div>
+                    </div>
+                    <!-- ============================ -->
+                    <div class="col-lg-4 col-6">
+                        <!-- small box -->
+                        @*<div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3>3</h3>
+
+                                <p>عدد المستخدمين</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="users-management.html" class="small-box-footer">تفاصيل</a>
+                        </div>*@
+                    </div>
+
+                    <!-- /.col -->
+            </div>
+
+            <!-- /.row -->
+            </section>
+        </div>
+        <!-- /.row -->
+    </div>
+<script>
+      $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#main').addClass('active');
+       
+    });
+</script>
+

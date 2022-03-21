@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0bc0360484b84cc2a12de61b6eafa1d8" Name="Diagram1">
+        <EntityTypeShape EntityType="MedicalModel.admin" Width="1.5" PointX="7.75" PointY="1.125" />
+        <EntityTypeShape EntityType="MedicalModel.Ad" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MedicalModel.Brand" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MedicalModel.Category" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="MedicalModel.Medium" Width="1.5" PointX="8.75" PointY="8.125" />
+        <EntityTypeShape EntityType="MedicalModel.Offer" Width="1.5" PointX="3" PointY="9.5" />
+        <EntityTypeShape EntityType="MedicalModel.Offer_details" Width="1.5" PointX="5.25" PointY="4.625" />
+        <EntityTypeShape EntityType="MedicalModel.Order" Width="1.5" PointX="6" PointY="8.5" />
+        <EntityTypeShape EntityType="MedicalModel.Order_Details" Width="1.5" PointX="8.25" PointY="4.5" />
+        <EntityTypeShape EntityType="MedicalModel.Proudcut" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="MedicalModel.Proudcut_Details" Width="1.5" PointX="5.25" PointY="1.75" />
+        <EntityTypeShape EntityType="MedicalModel.sysdiagram" Width="1.5" PointX="9.75" PointY="1.125" />
+        <AssociationConnector Association="MedicalModel.FK_Offer_Ads" />
+        <AssociationConnector Association="MedicalModel.FK_Proudcut_Brand" />
+        <AssociationConnector Association="MedicalModel.FK_Proudcut_Details_Category" />
+        <AssociationConnector Association="MedicalModel.FK_Offer_details_Offer" />
+        <AssociationConnector Association="MedicalModel.FK_Order_Details_Offer" />
+        <AssociationConnector Association="MedicalModel.FK_Offer_details_Proudcut" />
+        <AssociationConnector Association="MedicalModel.FK_Order_Details_Order" />
+        <AssociationConnector Association="MedicalModel.FK_Order_Details_Proudcut" />
+        <AssociationConnector Association="MedicalModel.FK_Proudcut_Details_Proudcut" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

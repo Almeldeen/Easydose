@@ -1,0 +1,422 @@
+﻿
+@{
+    ViewBag.Title = "AddBrand";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">الماركات</h3>
+                        </div>
+                        <div class="card ">
+
+                            <!-- form start -->
+                            <form>
+                                <input id="hdnid" style="display:none" />
+                                <div class="card-body" style="max-width: 400px;">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">إسم الماركة</label>
+                                        <input type="text" class="form-control" id="txtBrandName" placeholder="أدخل إسم التصنيف">
+                                        <small id="BrandNameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">صورة للماركة</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="imageUpload">
+                                                <label class="custom-file-label" for="exampleInputFile">اضغط لإختيار الصورة</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <small style="display:none" id="imageUploadError" class="text-danger  error ">لايمكنك الاضافة بدون صورة</small>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="add" type="button" onclick="addBrand()" class="btn btn-primary">إضافة ماركة جديد <small><em class="fa fa-plus"></em></small></button>
+                                    <button id="update" type="button" style="display:none" onclick="updateBrand()" class="btn btn-primary">تعديل الماركة  <small><em class="fa fa-edit"></em></small></button>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <span title="عرض المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye"></em></span>
+                            <span title="إخفاء المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye-slash"></em></span>
+                            <span title="أضف عرض المحدد" class="btn mx-2 btn-success"><em class="fa fa-tag"></em></span>
+                            <span title="حذف المحدد" class="btn mx-2 btn-danger"><em class="fa fa-trash"></em></span>
+                        </div>
+                        <!-- table -->
+                        <div class="card-body table-responsive">
+                            <table id="tabel1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input  custom-control-input-outline" type="checkbox" id="customCheckbox1" value="option1">
+                                                <label for="customCheckbox1" class="custom-control-label"></label>
+                                            </div>
+                                        </th>
+                                        <th>الإسم</th>
+                                        <th>الصورة</th>
+                                        @*<th>عدد المنتجات</th>*@
+                                        <th>الإجراءات</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*<tr>
+                                            <td>
+                                                 هنا هتخلي الأي دي بتاع اللابل زي بتاع الانبوت حسب اللوب بتاعك
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input  custom-control-input-outline" type="checkbox" id="hereLoopID" value="option1">
+                                                    <label for="hereLoopID" class="custom-control-label"></label>
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align: middle;">أدوية ضغط</td>
+                                            <td style="vertical-align: middle;">
+                                                <img width="100" height="100" src="" alt="">
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                                25453
+                                            </td>
+                                            <td style="vertical-align: middle;">
+                                                <span title="تعديل" class="btn btn-primary swalDefaultSuccess"><em class="fa fa-edit"></em></span>
+                                                 if not viewed
+                                                <span title="إظهار" class="btn btn-primary"><em class="fa fa-eye"></em></span>
+                                                 if  viewed
+                                                <span title="إخفاء" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>
+
+                                                <span title="أضف عرض" class="btn btn-success"><em class="fa fa-tag"></em></span>
+                                                <span title="حذف" class="btn btn-danger swalDefaultError"><em class="fa fa-trash"></em></span>
+                                            </td>
+
+                                        </tr>*@
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+<!-- /.content -->
+<!-- /.content-wrapper -->
+<!-- Control Sidebar -->
+
+
+<script>
+    var categoris = [];
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#brand').addClass('active');
+        LoadALLBrand();
+    });
+    function addBrand() {
+         
+        var BrandName = $('#txtBrandName').val();
+        var image = $('#imageUpload').val()
+        $('.error').hide();
+        //if (BrandName == "" || BrandName == null) {
+        //    $('#BrandNameError').show();
+        //}
+        //else if (image == "" || image == null) {
+        //    $('#imageUploadError').show();
+        //}
+        //else {
+            var fd = new FormData();
+             
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUpload").files.length;
+
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUpload").files[i];
+                formData.append("imageUpload", file);
+            }
+            $.ajax({
+                url: "/Admin/AddBrand?Name=" + BrandName,
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+                     
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#txtBrandName').val("");
+                        $('#imageUpload').val("")
+                        LoadALLBrand();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        //}
+
+    }
+    function LoadALLBrand() {
+        $.ajax({
+            url: "/Admin/LoadAllBrand",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                categoris = result;
+                 
+                $('#tabel1').dataTable({
+                    destroy: true,
+                    data: result,
+                    "language": {
+                        "paginate": {
+                            "next": "التالي",
+                            "previous": "السابق"
+                        }
+                    },
+                    "info": true,
+                    "ordering": false,
+                    columns: [
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td>' +
+                                    '<div class="custom-control custom-checkbox">' +
+                                    '<input class="custom-control-input  custom-control-input-outline" type="checkbox" id="tr' + data.Id + '" value="option1">' +
+                                    '<label for="tr' + data.Id + '" class="custom-control-label"></label>' +
+                                    '</div></td>'
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td style="vertical-align: middle;">' + data.Name + '</td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return ' <td style="vertical-align: middle;">' +
+                                    '<img width="100" height="100" src="/Image/' + data.Image + '" alt=""></td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                var html = '<td style="vertical-align: middle;">' +
+                                    '<a href="javascript:void(0);" onclick=getBrand(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="تعديل" class="btn btn-primary /*swalDefaultSuccess*/"><em class="fa fa-edit"></em></span></a>';
+                                
+                                if (data.Show == "unVisable") {
+                                    html += '<span style="margin-right: 1%;" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+                                    html += '<span style="margin-right: 1%; display:none" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                                }
+                                else {
+                                    html += '<span style="margin-right: 1%;" title="إخفاء" onclick="Show(' + data.Id + ',2)" id="unVisable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye-slash"></em></span>';
+                                    html += '<span style="margin-right: 1%;display:none" onclick="Show(' + data.Id + ',1)" title="إظهار" id="Visable_' + data.Id + '" class="btn btn-primary"><em class="fa fa-eye"></em></span>';
+
+                                }
+                                html+='<span style="margin-right: 1%;" title="أضف عرض" class="btn btn-success"><em class="fa fa-tag"></em></span>' +
+                                    '<a href="javascript:void(0);" onclick=deletBrand(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="حذف" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span></a>' +
+                                    '</td>';
+                                return html;
+                            }
+                        },
+
+                    ],
+                  
+                })
+            }
+        });
+    }
+    function getBrand(id) {
+
+        $.each(categoris, function (key, item) {
+             
+            if (id == item.Id) {
+                $('#hdnid').val(id);
+                $('#txtBrandName').val(item.Name);
+                $('#add').hide();
+                $('#update').show();
+
+            }
+        });
+    }
+    function updateBrand() {
+        var id = $('#hdnid').val();
+        var BrandName = $('#txtBrandName').val();
+        var image = $('#imageUpload').val()
+        $('.erorr').hide();
+        if (BrandName == "" || BrandName == null) {
+            $('#BrandNameError').show();
+        }
+        else {
+            var imagecha = 0;
+            if (image != "") {
+                imagecha = 1;
+                var fd = new FormData();
+
+                var formData = new FormData();
+                var totalFiles = document.getElementById("imageUpload").files.length;
+
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("imageUpload").files[i];
+                    formData.append("imageUpload", file);
+                }
+            }
+            $.ajax({
+                url: "/Admin/UpdateBrand?Id=" + id + "&Name=" + BrandName + "&imagecha=" + imagecha,
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+                     
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم تعديل البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#txtBrandName').val("");
+                        $('#imageUpload').val("")
+                        LoadALLBrand();
+                        $('#add').show();
+                        $('#update').hide();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+    function deletBrand(id) {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Admin/DeletBrand?Id=" + id,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result) {
+                         
+                        if (result == true) {
+                            Swal.fire(
+                                'تم الحذف!',
+                                'تم حذف البيانات.',
+                                'success'
+                            )
+                            LoadALLBrand();
+                        }
+                        else {
+                            Swal.fire(
+                                'حدث خطأ!',
+                                'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+            }
+        })
+    }
+     function Show(id, show) {
+         
+        $.ajax({
+            url: "/Admin/ChangeShowStatus?Id=" + id + "&ShowStatus=" + show + "&from=Brand",
+            type: "POST",
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            async: false,
+            success: function (result) {
+                 
+                if (result == true) {
+                    if (show == 1) {
+                        $('#unVisable_' + id).show();
+                        $('#Visable_' + id).hide();
+                    }
+                    else if (show == 2) {
+                        $('#unVisable_' + id).hide();
+                        $('#Visable_' + id).show();
+                    }
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'success',
+                        title: 'تم التحديث',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+
+                }
+                else {
+                    Swal.fire({
+                        position: 'middel',
+                        icon: 'error',
+                        title: 'حدث خطأ',
+                        showConfirmButton: false,
+                        timer: 1800
+                    })
+                }
+            }
+        });
+    }
+</script>

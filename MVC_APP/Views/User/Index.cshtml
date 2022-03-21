@@ -1,0 +1,415 @@
+﻿@model BLL.ALLVM
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+
+
+<!-- Start advertisement -->
+<section class=" py-5">
+    <div class="container">
+        <div class="ad1">
+            <div id="carouselExampleCaptions" data-interval="2000" class="carousel slide text-white  content" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="4"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="5"></li>
+                </ol>
+                <div class="carousel-inner overflow-hidden " style="max-height: 500px">
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        if (i == 0)
+                        {
+                            if (Model.Slider[i].Offer_Id == null)
+                            {
+                                <div class="carousel-item active">
+                                    <img src="~/Image/@Model.Slider[i].Image" class="d-block w-100 h-auto" alt="...">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item active">
+                                    <a href="/User/ViewOffer?OfferId=@Model.Slider[i].Offer_Id&OfferName=@Model.Slider[i].OfferName"><img src="~/Image/@Model.Slider[i].Image" class="d-block w-100 h-auto" alt="..."></a>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            if (Model.Slider[i].Offer_Id == null)
+                            {
+                                <div class="carousel-item ">
+                                    <img src="~/Image/@Model.Slider[i].Image" class="d-block w-100 h-auto" alt="...">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item ">
+                                    <a href="/User/ViewOffer?OfferId=@Model.Slider[i].Offer_Id&OfferName=@Model.Slider[i].OfferName"><img src="~/Image/@Model.Slider[i].Image" class="d-block w-100 h-auto" alt="..."></a>
+                                </div>
+                            }
+                        }
+
+                    }
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="ad2 pt-4 ">
+            <div class="d-flex flex-wrap justify-content-between">
+                @for (int i = 0; i < 2; i++)
+                {
+                    if (Model.AdsUp[i].Offer_Id == null)
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <img src="~/Image/@Model.AdsUp[i].Image" class="w-100 h-100">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <a href="/User/ViewOffer?OfferId=@Model.AdsUp[i].Offer_Id&OfferName=@Model.AdsUp[i].OfferName"><img src="~/Image/@Model.AdsUp[i].Image" class="w-100 h-100"></a>
+                        </div>
+                    }
+
+                }
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- End advertisement -->
+<!-- Start department -->
+<section>
+    <div class="department">
+        <div class="d-block ">
+            <div class="container">
+                <h4 class="text-right text-gray py-3 font-weight-bold">الأقسام</h4>
+            </div>
+        </div>
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-start">
+                @foreach (var item in Model.categories)
+                {
+                    <div class="col-3 col-md-auto text-center my-1" style="max-width:150px">
+                        <a href="/User/ViewProudct?Id=@item.Id&frompage=1" class=" text-decoration-none text-center">
+                            <img src="~/Image/@item.Image" alt="" width="50" height="50" class="rounded-circle">
+                            <p style="font-size:14px" class="text-center text-gray py-2 "><small>@item.Name</small></p>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End department -->
+<!-- Start bestSaller -->
+<section class="latestOffers">
+    <div class="w-100 py-5">
+        <div class="container">
+            <div class="d-flex py-3">
+                <div class="title ">
+                    <h4 class="text-gray font-weight-bold">الأكثر مبيعًا</h4>
+                </div>
+                <div class="button mr-auto"><a class="my-btn " style=" text-decoration: none !important;" href="/User/ViewProudct?frompage=3">عرض الكل  <i class="fa fa-chevron-left pr-2 "></i></a></div>
+
+            </div>
+            <div id="Best">
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- End bestSaller -->
+<!-- Start Brands -->
+@if (Model.brands.Count > 0)
+{
+    <section class=" Brands w-100 py-5">
+        <div class="container">
+            <div class="d-flex pb-3">
+                <div class="title ">
+                    <h4 class="text-gray font-weight-bold">الماركات</h4>
+                </div>
+                @*<div class="button mr-auto"><button class="my-btn  ">عرض الكل <i class="fa fa-chevron-left pr-2 "></i></button></div>*@
+
+            </div>
+            <div dir="ltr" class="owl-carousel normal owl-theme position-relative">
+                @foreach (var item in Model.brands)
+                {
+                    <div class="item">
+                        <div class="my-hover border d-flex justify-content-center align-items-center p-2 rounded-lg" style="width: 150px;height: 120px;">
+                            <a href="/User/ViewProudct?Id=@item.Id&frompage=2"><img src="~/Image/@item.Image" width="100%" height="100%" alt=""></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- End Brands -->
+<!-- Start advertisement -->
+<section>
+    <div class="container">
+        <div class="ad2 pt-4 ">
+            <div class="d-flex flex-wrap justify-content-between">
+                @for (int i = 0; i < 2; i++)
+                {
+                    if (Model.AdsMid[i].Offer_Id == null)
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <img src="~/Image/@Model.AdsMid[i].Image" class="w-100 h-100">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <a href="/User/ViewOffer?OfferId=@Model.AdsMid[i].Offer_Id&OfferName=@Model.AdsMid[i].OfferName"><img src="~/Image/@Model.AdsMid[i].Image" class="w-100 h-100"></a>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End advertisemen -->
+<!-- Start latest-Offers -->
+<section class="latestOffers">
+    <div class="w-100 py-5">
+        <div class="container">
+            <div class="d-flex py-3">
+                <div class="title ">
+                    <h4 class="text-gray font-weight-bold">أحدث العروض</h4>
+                </div>
+                <div class="button mr-auto"><a class="my-btn " style="text-decoration: none !important;" href="/User/ViewProudct?frompage=4">عرض الكل  <i class="fa fa-chevron-left pr-2 "></i></a></div>
+
+            </div>
+            <div id="offers">
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- End latest-Offers -->
+<!-- Start advertisement -->
+<section>
+    <div class="container">
+        <div class="ad2 py-5  ">
+            <div class="d-flex flex-wrap justify-content-between">
+                @for (int i = 0; i < 2; i++)
+                {
+                    if (Model.AdsDown[i].Offer_Id == null)
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <img src="~/Image/@Model.AdsDown[i].Image" class="w-100 h-100">
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="col-6 col-md-6 pr-0  img">
+                            <a href="/User/ViewOffer?OfferId=@Model.AdsDown[i].Offer_Id&OfferName=@Model.AdsDown[i].OfferName"><img src="~/Image/@Model.AdsDown[i].Image" class="w-100 h-100"></a>
+                        </div>
+
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End advertisemen -->
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#main').addClass('active');
+    })
+</script>
+<!-- local storage -->
+
+<script>
+    var products = [];
+    $(document).ready(() => {
+        $('body').removeAttr('style');
+         Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+
+        Best();
+        Offer();
+        $('.addToCartBtn').click((e) => {
+            const t = `<button style=";max-width:130px" type = "button" disabled class="btn-gray btn rounded align-self-end  py-2 w-100" >   تمت إضافته <em class="fa fa-check"></em></button >`;
+            //console.log(e.target.parentElement);
+            const arr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+            arr.push({ id: e.target.id, value: 1 });
+            localStorage.setItem('easy-dose-cart', JSON.stringify(arr));
+            e.target.parentElement.innerHTML = t;
+              var cartlength = Offerarr.length + arr.length
+            $('#numOfCarts').text(cartlength)
+            $('#numOfCarts2').text(cartlength)
+        });
+        // =====
+        debugger;
+         var cartlength = Offerarr.length + cartArr.length
+        $('#numOfCarts').text(cartlength)
+            $('#numOfCarts2').text(cartlength)
+
+    });
+    function Offer() {
+        const mainCarousel = document.createElement('div')
+        mainCarousel.setAttribute('class', 'owl-carousel product owl-theme position-relative ')
+        mainCarousel.setAttribute('dir', 'ltr');
+
+        $.ajax({
+            url: "/User/getProudct_Dis",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (response) {
+
+                products = response;
+                cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.id) : [];
+
+           products.forEach(p => {
+                   
+                    var temp = '<div class="item">' +
+                        '<div style="height:350px;" class="my-hover px-1 px-sm-3 overflow-hidden position-relative  border d-flex justify-content-center align-items-start  rounded-lg text-right">' +
+                        '<div class="item_content row justify-content-center h-100 col-12 py-md-4" ">' +
+                        '<div class="item-img">';
+                    if (p.Discount_per != 0) {
+                        temp += '<div class="my-discond">وفر %' + p.Discount_per + '</div>';
+                    }
+                    temp += '<a href="/User/ProudctDetails?proudct_id='+p.Id+'">'+
+                    '<div class="px-2 text-center">' +
+                        '<img src="/Image/' + p.Image + '" class="mb-2 mx-auto" height="120" style="width: 120px">' +
+                        '</div>' +
+                        '</a>' +
+                        '</div>' +
+                        ' <div class="item_desc" style="min-height:40px">' +
+                        '<a href="/User/ProudctDetails?proudct_id='+p.Id+'" class="text-decoration-none">' +
+                        '<div>' +
+                        '<h6 class="text-gray py-1 text-left ">' +
+                        p.Name
+                        + '</h6>' +
+                        '</div>' +
+                        ' </a>' +
+                        '</div>' +
+                        '<div class="offer_price align-self-end w-100 "  dir="rtl">' +
+                        '<a  class="text-decoration-none">' +
+                        '<span class="py-2 text-gray fw-bolder font-weight-bold float-right">' + p.TotalPrice + ' جنيه </span>&nbsp;';
+                    if (p.Discount_per != 0) {
+                        temp += ' <span class="py-2 float-left"><del class="font-weight-normal text-danger  pr-1">' + p.Price + ' جنيه </del></span>';
+                    }
+
+                    temp += '<div class="clearfix"></div></a></div><div>';
+                    var bt = '<button  id = "' + p.Id + '"  style="max-width:150px;font-size:15px" type = "submit" class="btn-primary addToCartBtn btn rounded align-self-end py-2 px-2 px-sm-3 w-100" > اضف الى العربة </button >';
+                    if (cartArr.length != 0) {
+                        for (var i = 0; i < cartArr.length; i++) {
+                            if (cartArr[i] == p.Id) {
+                                bt = '<button style=";max-width:150px;font-size:15px" type = "button" disabled class="btn-gray btn rounded align-self-end  py-2 w-100" >  تمت إضافته <em class="fa fa-check"></em> </button > '
+                                break;
+                            }
+                        }
+                    } else {
+                        bt = '<button  id = "' + p.Id + '" style=";margin:auto;max-width:150px;font-size:15px" type = "submit" class="btn-primary addToCartBtn btn align-self-end rounded px-2 px-sm-3 py-2 w-100" > اضف الى العربة </button >';
+                    }
+
+                    temp += bt + '</div ></div ></div ></div ></div >';
+
+                    mainCarousel.innerHTML += (temp)
+                })
+
+                $('#offers').append(mainCarousel);
+
+
+
+            }
+        });
+    }
+    function Best() {
+        const mainCarousel = document.createElement('div')
+        mainCarousel.setAttribute('class', 'owl-carousel product owl-theme position-relative ')
+        mainCarousel.setAttribute('dir', 'ltr');
+        $.ajax({
+            url: "/User/getProudct_Best",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                products = response;
+                cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.id) : [];
+
+                products.forEach(p => {
+                   
+                    var temp = '<div class="item">' +
+                        '<div style="height:350px;" class="my-hover px-1 px-sm-3 overflow-hidden position-relative  border d-flex justify-content-center align-items-start  rounded-lg text-right">' +
+                        '<div class="item_content row justify-content-center h-100 col-12 py-md-4" ">' +
+                        '<div class="item-img">';
+                    if (p.Discount_per != 0) {
+                        temp += '<div class="my-discond">وفر %' + p.Discount_per + '</div>';
+                    }
+                    temp += '<a href="/User/ProudctDetails?proudct_id='+p.Id+'">'+
+                    '<div class="px-2 text-center">' +
+                        '<img src="/Image/' + p.Image + '" class="mb-2 mx-auto" height="120" style="width: 120px">' +
+                        '</div>' +
+                        '</a>' +
+                        '</div>' +
+                        ' <div class="item_desc" style="min-height:40px">' +
+                        '<a href="/User/ProudctDetails?proudct_id='+p.Id+'" class="text-decoration-none">' +
+                        '<div>' +
+                        '<h6 class="text-gray py-1 text-left ">' +
+                        p.Name
+                        + '</h6>' +
+                        '</div>' +
+                        ' </a>' +
+                        '</div>' +
+                        '<div class="offer_price align-self-end w-100 "  dir="rtl">' +
+                        '<a  class="text-decoration-none">' +
+                        '<span class="py-2 text-gray fw-bolder font-weight-bold float-right">' + p.TotalPrice + ' جنيه </span>&nbsp;';
+                    if (p.Discount_per != 0) {
+                        temp += ' <span class="py-2 float-left"><del class="font-weight-normal text-danger  pr-1">' + p.Price + ' جنيه </del></span>';
+                    }
+
+                    temp += '<div class="clearfix"></div></a></div><div>';
+                    var bt = '<button  id = "' + p.Id + '"  style="max-width:150px;font-size:15px" type = "submit" class="btn-primary addToCartBtn btn rounded align-self-end py-2 px-2 px-sm-3 w-100" > اضف الى العربة </button >';
+                    if (cartArr.length != 0) {
+                        for (var i = 0; i < cartArr.length; i++) {
+                            if (cartArr[i] == p.Id) {
+                                bt = '<button style=";max-width:150px;font-size:15px" type = "button" disabled class="btn-gray btn rounded align-self-end  py-2 w-100" >  تمت إضافته <em class="fa fa-check"></em> </button > '
+                                break;
+                            }
+                        }
+                    } else {
+                        bt = '<button  id = "' + p.Id + '" style=";margin:auto;max-width:150px;font-size:15px" type = "submit" class="btn-primary addToCartBtn btn align-self-end rounded px-2 px-sm-3 py-2 w-100" > اضف الى العربة </button >';
+                    }
+
+                    temp += bt + '</div ></div ></div ></div ></div >';
+
+                    mainCarousel.innerHTML += (temp)
+                })
+
+                $('#Best').append(mainCarousel);
+
+
+
+            }
+        });
+    }
+
+</script>

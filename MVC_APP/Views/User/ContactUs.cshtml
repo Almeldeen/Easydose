@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "ContactUs";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    DLL.DataModel.MedicalEntities db = new DLL.DataModel.MedicalEntities();
+     var media = db.Media.Where(x => x.Id == 1).Select(x => new BLL.MediaVM { Facebook = x.Facebook, Whatsapp = x.Whatsapp, Massenger = x.Massenger }).FirstOrDefault();
+}
+
+<section class="contact-bg py-4 h-100">
+    <div class="Overlay"></div>
+    <div class="container h-100 d-flex align-items-center justify-content-center w-100">
+        <div class="row w-100 justify-content-center  align-items-stretch text-right">
+            <div class="card col-md-5  m-1">
+                <div class="card-body d-flex flex-column justify-content-between text-gray py-3 ">
+                    <div>
+                        <h6 class="font-weight-bold py-3 ">مسرورين بتواصلك معنا</h6>
+
+                        <a href="" class="text-decoration-none">
+                            <label for="" class="d-block border-bottom text-muted  py-2 px-3">
+                                <i class="fa fa-phone text-green pl-2"></i>
+                                01101003452
+                                <i class="fa d-none d-lg-inline-block fa-arrow-left text-green float-left"></i>
+                            </label>
+                        </a>
+                        <a href="" class="text-decoration-none">
+                            <label for="" class="d-block border-bottom text-muted py-2 px-3 ">
+                                <i class="fa fa-envelope   text-green pl-2 "></i>
+                                info@easydosee.com
+
+                                <i class="fa d-none d-lg-inline-block fa-arrow-left text-green float-left"></i>
+                            </label>
+                        </a>
+                        <a href="@media.Facebook" target="_blank" class="text-decoration-none">
+                            <label for="" class="d-block border-bottom  py-2 text-muted px-3">
+                                <i class="fa fa-facebook  text-green pl-2"></i>
+                               زورونا علي صفحتنا علي الفيس بوك
+
+                                <i class="fa d-none d-lg-inline-block fa-arrow-left text-green float-left"></i>
+                            </label>
+                        </a>
+                        <a href="@media.Whatsapp" target="_blank" class="text-decoration-none">
+                            <label for="" class="d-block border-bottom  py-2 text-muted px-3">
+                                <i class="fa fa-whatsapp  text-green pl-2"></i>
+                               ارسل لنا علي الواتس اب
+
+                                <i class="fa d-none d-lg-inline-block fa-arrow-left text-green float-left"></i>
+                            </label>
+                        </a>
+                        <a href="@media.Massenger" target="_blank" class="text-decoration-none">
+                            <label for="" class="d-block border-bottom  py-2 text-muted px-3">
+                                <i class="fab fa-facebook-messenger  text-green pl-2"></i>
+                               ارسل لنا علي الماسنجر
+
+                                <i class="fa d-none d-lg-inline-block fa-arrow-left text-green float-left"></i>
+                            </label>
+                        </a>
+                    </div>
+
+
+                    @*<div class="text-center">
+
+                            <p class="text-center mt-4">إذا كنت تريد طلب أدوية معينة بشكل خاص اضغط هنا</p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                لطلب أدوية خاصة
+                            </button>
+                        </div>*@
+
+                </div>
+            </div>
+
+            <div class="card col-md-5 m-1">
+                <div class="card-body">
+                    <h6 class="font-weight-bold py-3 text-gray">أرسل لنا</h6>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">الإسم</label>
+                            <input type="text" class="form-control" id="name" placeholder="الإسم">
+                            <small id="NameError" style="display:none" class="text-danger error">من فضلك ادخل اسم</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">رقم الموبايل</label>
+                            <input type="text" class="form-control" id="phone" placeholder="رقم الموبايل">
+                            <small id="PhoneError" style="display:none" class="text-danger error">من فضلك ادخل رفم التيلفون</small>
+                            <small id="PhoneError2" style="display:none" class="text-danger error">رقم التليفون مكون من 11 رقم</small>
+                            <small id="PhoneError3" style="display:none" class="text-danger error">من فضلك ادخل رقم التليفون صحيح</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">البريد الإلكتروني</label>
+                            <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني">
+                            <small id="emailError" style="display:none" class="text-danger error">من فضلك ادخل البريد الاكتروني</small>
+                            <small id="emailError2" style="display:none" class="text-danger error">
+                                من فضلك ادخل البريد الالكتروني صحيح
+                            </small>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="message">رسالتك</label>
+                            <textarea type="text" class="form-control" id="message" rows="4" placeholder="اكتب رسالتك"></textarea>
+                            <small id="messageError" style="display:none" class="text-danger error">من فضلك ادخل رسالتك</small>
+                        </div>
+
+
+                        <button id="btnsend" type="button" onclick="Email()" class="btn btn-primary">إرسال</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div dir="rtl" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title" id="exampleModalLongTitle">أطلب أدوية خاصة</h5>
+                    <button type="button" class="btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div dir="rtl" class="modal-body text-right">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">الإسم</label>
+                            <input type="text" class="form-control" id="name" placeholder="الإسم">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">* البريد الإلكتروني</label>
+                            <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">رقم الموبايل</label>
+                            <input type="text" class="form-control" id="phone" placeholder="رقم الموبايل">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">الأدوية التي تحتاجها</label>
+                            <textarea type="text" class="form-control" id="message" rows="4" placeholder="يمكنك كتابة أكثر من نوع دواء والفصل بينهم بتلك العلامة (-)"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary">أطلب الآن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('.searchBox2').remove();
+        $('#ContactUs').addClass('active');
+    })
+    function Email() {
+        var name = $('#name').val();
+        var phone = $('#phone').val();
+        var email = $('#email').val();
+        var message = $('#message').val();
+        var regEx = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var validEmail = regEx.test(email);
+        var keyPhone = phone.substring(0, 3);
+        if (name == "" || name == null) {
+            $('#NameError').show();
+        }
+        else if (phone == "" || phone == null) {
+            $('#PhoneError').show();
+        }
+        else if (phone.length != 11) {
+            $('#PhoneError2').show();
+        }
+        else if (keyPhone != "010" && keyPhone != "011" && keyPhone != "012" && keyPhone != "015") {
+            $('#PhoneError3').show();
+        }
+        else if (email == "" || email == null) {
+            $('#emailError').show();
+        }
+        else if (!validEmail) {
+            $('#emailError2').show();
+
+        }
+        else if (message == "" || message == null) {
+            $('#messageError').show();
+
+        }
+        else {
+            $.ajax({
+                url: "/User/EmailUser?name=" + name + "&phone=" + phone + "&email=" + email + "&feedback=" + message,
+                type: "POST",
+                success: function (result) {
+                    if (result == true) {
+
+                        Swal.fire({
+                            title: 'سيتم التواصل معك قريبًا',
+                            icon: 'success',
+                            html: 'نشكرك على ثقتك بنا',
+
+                            confirmButtonText: `الذهاب للصفحة الرئيسية`,
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                               
+                                window.location = "/User/Index"
+                            }
+                        })
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                },
+                error: function (result) {
+                    console.log(result);
+                }
+            });
+        }
+
+    }
+</script>

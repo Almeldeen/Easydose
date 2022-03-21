@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "Proudcts";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">إضافة منتج</h3>
+                        </div>
+                        <div class=" ">
+
+                            <!-- form start -->
+                            <form id="formadd">
+                                <div class="card-body" style="max-width: 400px;">
+                                    <div class="form-group">
+                                        <label for="name">إسم المنتج</label>
+                                        <input required type="text" class="form-control" id="name" placeholder="أدخل إسم المنتج">
+                                        <small id="nameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price">سعر المنتج</label>
+                                        <input required type="number" class="form-control" id="price" placeholder="أدخل سعر المنتج">
+                                        <small id="priceError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون سعر</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productImg">صورة للمنتج</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input required type="file" class="custom-file-input" id="imageUpload">
+                                                <label class="custom-file-label" for="imageUpload">اضغط لإختيار الصورة</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <small id="imageUploadError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون صورة</small>
+                                    <div class="form-group">
+                                        <label for="Category">تصنيف المنتج</label>
+                                        <select required id="Category" class="custom-select form-control w-100" style="min-width: 200px;" name="categoriesFilter" multiple>
+
+                                            @foreach (var item in ViewBag.Category)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+
+                                        </select>
+                                        <small id="categoryError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون تصنيف</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Brand">ماركة المنتج</label>
+                                        <select required id="Brand" class="custom-select">
+                                            @foreach (var item in ViewBag.Brand)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+
+                                        </select>
+                                        <small id="brandError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون ماركة</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="resource">المصدر</label>
+                                        <select required id="resource" class="custom-select">
+                                            <option selected value="-1">اختر المصدر</option>
+                                            <option value="imported">مستورد</option>
+                                            <option value="local">محلي</option>
+                                        </select>
+                                        <small id="resourceError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون مصدر</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="arabdisc">وصف المنتج </label>
+                                        <textarea required type="" class="form-control" id="arabdisc" cols="100" rows="4" placeholder="أدخل وصف المنتج بالعربية"></textarea>
+                                        <textarea required type="" class="form-control" id="engdisc" cols="100" rows="4" placeholder="أدخل وصف المنتج بالانجليزية"></textarea>
+                                        @*<small id="brandError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون ماركة</small>*@
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button onclick="addProudct()" type="button" class="btn btn-primary">إضافة المنتج <small><em class="fa fa-plus"></em></small></button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+<script>
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#proudct').addClass('active');
+        $('#Addproudctbar').addClass('active');
+
+    });
+    function addProudct() {
+        var ProudctName = $('#name').val();
+        var image = $('#imageUpload').val()
+        var price = $('#price').val();
+        var category = $('#Category').val();
+        var brand = $('#Brand').val();
+        var aradisc = $('#arabdisc').val();
+        var engdisc = $('#engdisc').val();
+        var resource = $('#resource').val();
+        $('.error').hide();
+        //if (ProudctName == "" || ProudctName == null) {
+        //    $('#nameError').show();
+        //}
+
+        //else if (price == "" || price == null) {
+        //    $('#priceError').show();
+        //}
+        //else if (image == "" || image == null) {
+        //    $('#imageUploadError').show();
+        //}
+        if (category == -1 || category == null || category == "") {
+            $('#categoryError').show();
+        }
+        //else if (brand == -1 || brand == null || category == "") {
+        //    $('#brandError').show();
+        //}
+        else {
+            var fd = new FormData();
+
+            var formData = new FormData();
+            var totalFiles = document.getElementById("imageUpload").files.length;
+
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("imageUpload").files[i];
+                formData.append("imageUpload", file);
+            }
+            $.ajax({
+                url: "/Admin/AddProudct?Name=" + ProudctName + "&Price=" + price + "&Category_Ids=" + category + "&Brand_Id=" + brand + "&Description_A=" + aradisc + "&Description_E=" + engdisc + "&wherestatus=" + resource,
+                type: "POST",
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#formadd').trigger("reset");
+                     
+                        //$('#name').val("");
+                        //$('#imageUpload').val("")
+                        //$('#price').val("");
+                        ////$('#Category').val("");
+                        // $('#Category').multiselect('deselectAll', false);
+                        //$('#Brand').val(-1);
+                        //$('#arabdisc').val("");
+                        //$('#engdisc').val("")
+                        // $('#resource').val(-1);
+
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+

@@ -1,0 +1,336 @@
+﻿
+@{
+    ViewBag.Title = "Offer";
+    Layout = "~/Views/Shared/_newLayout.cshtml";
+}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <section class="content row w-100">
+
+                <div class="col-12 my-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">العروض</h3>
+                        </div>
+                        <div class="card ">
+
+                            <!-- form start -->
+                            <form>
+                                <input id="hdnid" style="display:none" />
+                                <div class="card-body" style="max-width: 400px;">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">إسم العرض</label>
+                                        <input type="text" class="form-control" id="txtOfferName" placeholder="أدخل إسم العرض">
+                                        <small id="OfferNameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Ads">اعلان العرض</label>
+                                        <select required id="Ads" class="custom-select">
+                                            <option value="-1">اختر مكان الاعلان</option>
+                                            @foreach (var item in ViewBag.ads)
+                                            {
+                                                <option value="@item.Ad_Id">@item.Name</option>
+                                            }
+
+                                        </select>
+                                        <small id="AdsError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون مكان الاعلان</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txtOfferPrice">السعر</label>
+                                        <input type="number" class="form-control" id="txtOfferPrice" placeholder="أدخل السعر">
+                                        <small id="OfferPriceError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون سعر</small>
+                                    </div>
+
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer">
+                                    <button id="add" type="button" onclick="addOffer()" class="btn btn-primary">إضافة عرض جديد <small><em class="fa fa-plus"></em></small></button>
+                                    <button id="update" type="button" style="display:none" onclick="updateOffer()" class="btn btn-primary">تعديل عرض   <small><em class="fa fa-edit"></em></small></button>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-center">
+                            @*<span title="عرض المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye"></em></span>
+                            <span title="إخفاء المحدد" class="btn mx-2 btn-primary"><em class="fa fa-eye-slash"></em></span>*@
+                            <span title="أضف عرض المحدد" class="btn mx-2 btn-success"><em class="fa fa-tag"></em></span>
+                            <span title="حذف المحدد" class="btn mx-2 btn-danger"><em class="fa fa-trash"></em></span>
+                        </div>
+                        <!-- table -->
+                        <div class="card-body table-responsive">
+                            <table id="tabel1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input  custom-control-input-outline" type="checkbox" id="customCheckbox1" value="option1">
+                                                <label for="customCheckbox1" class="custom-control-label"></label>
+                                            </div>
+                                        </th>
+                                        <th>الإسم</th>
+                                        <th>السعر</th>
+                                        <th>الصورة</th>
+
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+        </div>
+
+        <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.row -->
+</div>
+<script>
+    var categoris = [];
+    $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#Offer').addClass('active');
+        $('#AddOfferbar').addClass('active');
+        LoadALLOffer();
+    });
+    function addOffer() {
+         
+        var OfferName = $('#txtOfferName').val();
+        var image = $('#Ads').val()
+        var price = $('#txtOfferPrice').val();
+        $('.error').hide();
+        if (OfferName == "" || OfferName == null) {
+            $('#OfferNameError').show();
+        }
+        else if (image == -1 || image == "" || image == null) {
+            $('#AdsError').show();
+        }
+        else if (price == "" || price == null) {
+            $('#OfferPriceError').show()
+        }
+        else {
+            $.ajax({
+                url: "/Admin/AddOffer?Name=" + OfferName + "&Ad_Id=" + image + "&price=" + price,
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+                     
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم حفظ البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                        $('#txtOfferName').val("");
+                        $('#Ads').val(-1)
+                         $('#txtOfferPrice').val("");
+                        LoadALLOffer();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+    function LoadALLOffer() {
+        $.ajax({
+            url: "/Admin/LoadAllOffer",
+            type: "GET",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                categoris = result;
+                 
+                $('#tabel1').dataTable({
+                    destroy: true,
+                    data: result,
+                    "language": {
+                        "paginate": {
+                            "next": "التالي",
+                            "previous": "السابق"
+                        }
+                    },
+                    "info": true,
+                    "ordering": false,
+                    columns: [
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td>' +
+                                    '<div class="custom-control custom-checkbox">' +
+                                    '<input class="custom-control-input  custom-control-input-outline" type="checkbox" id="tr' + data.Id + '" value="option1">' +
+                                    '<label for="tr' + data.Id + '" class="custom-control-label"></label>' +
+                                    '</div></td>'
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td style="vertical-align: middle;">' + data.OfferName + '</td>';
+                            }
+                        },
+                         {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td style="vertical-align: middle;">' + data.OfferPrice + '</td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return ' <td style="vertical-align: middle;">' +
+                                    '<img width="100" height="100" src="/Image/' + data.Image + '" alt=""></td>';
+                            }
+                        },
+                        {
+                            'data': null,
+                            render: function (data, type, row) {
+                                return '<td style="vertical-align: middle;">' +
+                                    '<a href="javascript:void(0);" onclick=getOffer(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="تعديل" class="btn btn-primary /*swalDefaultSuccess*/"><em class="fa fa-edit"></em></span></a>' +
+                                    '<a href="javascript:void(0);" onclick=deletOffer(' + data.Id + '); return false;>' +
+                                    '<span style="margin-right: 1%;" title="حذف" class="btn btn-danger /*swalDefaultError*/"><em class="fa fa-trash"></em></span></a>' +
+                                    '</td>';
+                               
+                            }
+                        },
+
+                    ],
+                   
+                })
+            }
+        });
+    }
+    function getOffer(id) {
+
+        $.each(categoris, function (key, item) {
+             
+            if (id == item.Id) {
+                $('#hdnid').val(id);
+                $('#txtOfferName').val(item.OfferName);
+                 $('#txtOfferPrice').val(item.OfferPrice);
+                $('#Ads').val(item.Ads_id)
+                $('#add').hide();
+                $('#update').show();
+
+            }
+        });
+    }
+    function updateOffer() {
+        debugger;
+        var id = $('#hdnid').val();
+        var OfferName = $('#txtOfferName').val();
+        var image = $('#Ads').val()
+         var price = $('#txtOfferPrice').val();
+        $('.erorr').hide();
+        if (OfferName == "" || OfferName == null) {
+            $('#OfferNameError').show();
+        }
+         else if (image == -1 || image == "" || image == null) {
+            $('#AdsError').show();
+        }
+        else {     
+            $.ajax({
+                url: "/Admin/UpdateOffer?Id=" + id + "&Name=" + OfferName + "&Ad_Id=" + image+ "&price=" + price,
+                type: "POST",
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                async: false,
+                success: function (result) {
+                     
+                    if (result == true) {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'success',
+                            title: 'تم تعديل البيانات',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                         $('#txtOfferName').val("");
+                        $('#Ads').val(-1)
+                         $('#txtOfferPrice').val("");
+                        LoadALLOffer();
+                        $('#add').show();
+                        $('#update').hide();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'middel',
+                            icon: 'error',
+                            title: 'حدث خطأ',
+                            showConfirmButton: false,
+                            timer: 1800
+                        })
+                    }
+                }
+            });
+        }
+
+    }
+    function deletOffer(id) {
+        Swal.fire({
+            title: 'هل انت متأكد?',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'نعم ,قم بالحذف',
+            cancelButtonText: 'الغاء',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/Admin/DeletOffer?Id=" + id,
+                    type: "POST",
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    success: function (result) {
+                         
+                        if (result == true) {
+                            Swal.fire(
+                                'تم الحذف!',
+                                'تم حذف البيانات.',
+                                'success'
+                            )
+                            LoadALLOffer();
+                        }
+                        else {
+                            Swal.fire(
+                                'حدث خطأ!',
+                                'البيانات تم استخدامها من قبل لايمكنك حذفها',
+                                'error'
+                            )
+                        }
+                    }
+                });
+
+            }
+        })
+    }
+    
+</script>

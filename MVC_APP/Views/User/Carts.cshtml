@@ -1,0 +1,343 @@
+﻿
+@{
+    ViewBag.Title = "Carts";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<section class="container text-right my-2">
+    <h2 class="text-muted text-center w-100 my-5">سلة التسوق <em class="fa fa-capsules"></em></h2>
+    <hr class="m-3">
+    <div class="w-100 ">
+        <button type="button" onclick="deletcart()" class="btn btn-danger"> حذف الكل<em class="fa fa-trash"></em></button>
+    </div>
+    <div class="w-100 row  justify-content-center my-4 align-items-start">
+        <div class=" col-md-8">
+            <div class="card rounded-lg shadow-sm">
+                <div class="card-body" id="products-cart">
+                    <!-- products show here -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div style="max-height:max-content;" class=" mb-2 table-responsive table-bordered">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">إسم المنتج</th>
+                            <th scope="col">الكمية</th>
+                            <th scope="col">السعر الإجمالي</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vieworder">
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="card rounded-lg shadow-sm">
+                <div class="card-body">
+
+                    <div class="d-flex font-weight-bold flex-wrap justify-content-around align-items-center">
+                        <h4 class="m-0">الإجمالي</h4>
+
+                        <h4 class="m-0" style="min-width: 70px;"><span id="totalPrice"></span> جنيه</h4>
+                        <hr class="w-100 my-3">
+                    </div>
+                    @*<div class="d-flex  flex-wrap justify-content-around align-items-center">
+                            <h6 class="m-0">رسوم التوصيل</h6>
+
+                            <h6 class="m-0" style="min-width: 70px;">حسب العنوان</h6>
+                            <hr class="w-100">
+                        </div>*@
+                    <button onclick="buy()" class="w-100 rounded-lg btn btn-primary ">إتمام عملية الشراء</button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</section>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+<script src="~/dist/js/input-spinner.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.searchBox2').remove();
+    })
+    function deletcart() {
+        $('div[name="procart"]').remove();
+        $('tr[name="procarttr"]').remove();
+
+        const temp = `
+<div class="text-center">
+<h3 class="text-muted">السلة فارغة</h3>
+<a href="/User/Index" class="btn btn-primary px-5 mt-4" >اذهب للتسوق</a>
+</div>
+`;
+
+        $('#products-cart').html(temp);
+        $('#totalPrice').html(0)
+        $('#numOfCarts').text(0);
+        $('#numOfCarts2').text(0);
+        localStorage.removeItem("easy-dose-cart");
+        localStorage.removeItem("easy-dose-cart-offer");
+    }
+    $(".numOfProducts").inputSpinner();
+    $(".numOfProducts").change(function (event) {
+
+        for (var i = 0; i < prices.length; i++) {
+            var id = parseInt(this.id)
+            var id2 = ids[i];
+            if (id2 == id) {
+                var newprice = prices[i] * this.value
+                $('#price_' + this.id).text(newprice + "جنيه ")
+                break;
+            }
+
+
+        }
+        Arrproduct.each((product, i) => {
+            if (e.id === this.id) {
+                product[i] = { id: this.id, value: this.value }
+
+            }
+        });
+        localStorage.removeItem('easy-dose-cart');
+        localStorage.setItem('easy-dose-cart', JSON.stringify(Arrproduct));
+        var total = 0;
+        $(".price").each(function () {
+
+            var pri = parseInt($(this).find("span").text().replace("جنيه", " "));
+            total += pri;
+
+        });
+        $('#totalPrice').html(total)
+    })
+</script>
+<!-- local storage -->
+<script>
+    const Arrproduct = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+    Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+    var products = [];
+    var prices = [];
+    var ids = [];
+    var SumOfPrices = 0;
+    var i = 0;
+    cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.id) : [];
+    qunti = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')).map(e => e.value) : [];
+    OffercartArr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')).map(e => e.id) : [];
+    Offerqunti = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')).map(e => e.value) : [];
+    // for counter icon in navbar
+    $('#numOfCarts').text(cartArr.length);
+    $('#numOfCarts2').text(cartArr.length);
+
+    // get products from server by ids in cartArr
+
+    if (cartArr.length == 0 && Offerarr.length == 0) {
+
+
+        const temp = `
+<div class="text-center">
+<h3 class="text-muted">السلة فارغة</h3>
+<a href="/User/Index" class="btn btn-primary px-5 mt-4" >اذهب للتسوق</a>
+</div>
+`;
+
+        $('#products-cart').html(temp);
+        $('#totalPrice').append(0)
+    }
+    else {
+        if (cartArr.length > 0) {
+            $.ajax({
+                url: "/User/getproudct_Cart?ProudctIds=" + cartArr,
+                type: "GET",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (response) {
+
+                    products = response;
+
+                    products.forEach(p => {
+                        const temp = `<div name="procart" id="${p.Id}" class="d-flex flex-wrap justify-content-around align-items-center price">
+                           <a href="/User/ProudctDetails?proudct_id=${p.Id}"> <img width="100" height="100" src="/Image/${p.Image}" alt=""></a>
+                            <p style="width:120px" class="m-0">${p.Name} </p>
+                            <div dir="ltr" style="max-width: 150px;">
+                                <input style="box-shadow: none !important;" value="${qunti[i]}" dir="ltr" type="number" id="${p.Id}" min="0"  name="numOfProduct1" class="numOfProducts">
+
+                            </div>
+                            <span  id="price_${p.Id}" style="min-width: 70px;">${p.TotalPrice} جنيه</span>
+                            <a class="confirmDelete" onclick="deletOrder(${p.Id})" href="javascript:void(0)"  ><em class="fa fa-trash text-danger lead"></em></a>
+                            <hr class="w-100">
+                        </div>`;
+
+                        SumOfPrices = (SumOfPrices + (p.TotalPrice * qunti[i]));
+                        prices[i] = p.TotalPrice;
+                        ids[i] = p.Id;
+                        debugger;
+                        const order = '<tr name="procarttr" id="tr_' + p.Id + '"><th>' + p.Name + '</th><td id="tdQunti_' + p.Id + '">' + qunti[i] + '</td><td class="price" id="tdprice_' + p.Id + '">' + p.TotalPrice * qunti[i] + ' جنيهًا</td></tr>';
+                        $('#vieworder').append(order);
+                        $('#products-cart').append(temp);
+                        i++;
+                    });
+                    //$('#totalPrice').append(SumOfPrices)
+                }
+            });
+        }
+        if (Offerarr.length > 0) {
+            $.ajax({
+                url: "/User/getproudct_Cart_Offer?OfferIds=" + OffercartArr,
+                type: "GET",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (response) {
+
+                    products = response;
+                    var j = 0;
+                    products.forEach(p => {
+                        const temp = `<div name="procart" id="${p.Id}" class="d-flex flex-wrap justify-content-around align-items-center price">
+                           <a href="/User/ProudctDetails?proudct_id=${p.Id}"> <img width="100" height="100" src="/Image/${p.Image}" alt=""></a>
+                            <p style="width:120px" class="m-0">${p.Name} </p>
+                            <div dir="ltr" style="max-width: 150px;">
+                                <input style="box-shadow: none !important;" value="${Offerqunti[j]}" dir="ltr" type="number" id="${p.Id}" min="0"  name="numOfProduct1" class="numOfProducts">
+
+                            </div>
+                            <span  id="price_${p.Id}" style="min-width: 70px;">${p.TotalPrice} جنيه</span>
+                            <a class="confirmDelete" onclick="deletOrder(${p.Id})" href="javascript:void(0)"  ><em class="fa fa-trash text-danger lead"></em></a>
+                            <hr class="w-100">
+                        </div>`;
+                        debugger;
+                        SumOfPrices = (SumOfPrices + (p.TotalPrice * Offerqunti[j]));
+                        prices[i] = p.TotalPrice;
+                        ids[i] = p.Id;
+
+                        const order = '<tr name="procarttr" id="tr_' + p.Id + '"><th>' + p.Name + '</th><td id="tdQunti_' + p.Id + '">' + Offerqunti[j] + '</td><td class="price" id="tdprice_' + p.Id + '">' + p.TotalPrice * Offerqunti[j] + ' جنيهًا</td></tr>';
+                        $('#vieworder').append(order);
+                        $('#products-cart').append(temp);
+                        i++;
+                        j++;
+                    });
+                    //$('#totalPrice').append(SumOfPrices)
+                }
+            });
+        }
+        debugger;
+        $('#totalPrice').append(SumOfPrices)
+    }
+
+
+    // for ui configs
+    $(".numOfProducts").inputSpinner();
+    $(".numOfProducts").change(function (event) {
+
+        for (var i = 0; i < prices.length; i++) {
+            var id = parseInt(this.id)
+            var id2 = ids[i];
+            if (id2 == id) {
+                var newprice = prices[i] * this.value;
+                $('#tdprice_' + this.id).html(newprice + " جنيه ");
+                $('#tdQunti_' + id).html(this.value);
+                break;
+            }
+        }
+        Arrproduct.forEach((product, i) => {
+            if (product.id === this.id) {
+                Arrproduct[i] = { id: this.id, value: this.value }
+
+            }
+        });
+        Offerarr.forEach((product, i) => {
+            if (product.id === this.id) {
+                Offerarr[i] = { id: this.id, value: this.value }
+
+            }
+        });
+        localStorage.removeItem('easy-dose-cart');
+        localStorage.setItem('easy-dose-cart', JSON.stringify(Arrproduct));
+        localStorage.removeItem('easy-dose-cart-offer');
+        localStorage.setItem('easy-dose-cart-offer', JSON.stringify(Offerarr));
+        var total = 0;
+        $("#vieworder > tr").each(function () {
+            debugger;
+            var pri = parseInt($(this).find(".price").text().replace("جنيه", " "));
+            total += pri;
+
+        });
+        $('#totalPrice').html(total)
+    })
+    function deletOrder(id) {
+        debugger;
+        var total = 0;
+        $('#' + id).remove()
+        $('#tr_' + id).remove();
+        var ids = new Array();
+        var where;
+        cartArr = localStorage.getItem('easy-dose-cart') ? JSON.parse(localStorage.getItem('easy-dose-cart')) : [];
+        Offerarr = localStorage.getItem('easy-dose-cart-offer') ? JSON.parse(localStorage.getItem('easy-dose-cart-offer')) : [];
+        for (var i = 0; i < cartArr.length; i++) {
+            if (cartArr[i].id == id) {
+                var index = i;
+                where = "pro"
+            }
+        }
+        if (index > -1 && where == "pro") {
+            cartArr.splice(index, 1);
+            localStorage.removeItem("easy-dose-cart");
+            localStorage.setItem('easy-dose-cart', JSON.stringify(cartArr));
+        }
+        for (var i = 0; i < Offerarr.length; i++) {
+            if (Offerarr[i].id == id) {
+                var index = i;
+                where = "ofer"
+            }
+        }
+        if (index > -1 && where == "ofer") {
+            Offerarr.splice(index, 1);
+            localStorage.removeItem("easy-dose-cart-offer");
+            localStorage.setItem('easy-dose-cart-offer', JSON.stringify(Offerarr));
+        }
+        var cartlengt = Offerarr.length + cartArr.length;
+        $('#numOfCarts').text(cartlengt);
+        $('#numOfCarts2').text(cartlengt);
+
+
+        $("#vieworder >tr").each(function () {
+            debugger;
+            var pri = parseInt($(this).find(".price").text().replace("جنيه", " "));
+            total += pri;
+
+        });
+        if (cartArr.length == 0 && Offerarr.length == 0) {
+            const temp = `
+<div class="text-center">
+<h3 class="text-muted">السلة فارغة</h3>
+<a href="/User/Index" class="btn btn-primary px-5 mt-4" >اذهب للتسوق</a>
+</div>
+`;
+
+            $('#products-cart').append(temp);
+        }
+        $('#totalPrice').html(total)
+    }
+    function buy() {
+
+        if (cartArr.length > 0 || Offerarr.length > 0) {
+            window.location = "/User/BuyForm"
+        }
+        else {
+            Swal.fire({
+                position: 'middel',
+                icon: 'error',
+                title: 'سلة التسوق فارغة',
+                showConfirmButton: false,
+                timer: 1800
+            })
+        }
+    }
+</script>
+

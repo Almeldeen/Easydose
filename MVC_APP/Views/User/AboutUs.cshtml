@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "AboutUs";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<!-- about us -->
+<section class="contact-bg py-4 h-100">
+    <div class="Overlay"></div>
+    <div class="container h-100 d-flex align-items-center justify-content-center w-100">
+        <div class="row w-100 justify-content-center  align-items-stretch text-right">
+
+
+            <div class="card col-md-8">
+                <div class="card-body">
+                    <h3 class="font-weight-bold text-center py-3 text-gray">من نحن</h3>
+
+                    <p class="text-muted">
+                        منصة طبية رقمية تهدف إلى ربط الهرم الطبي المكون من المريض وشركات الدواء والأطباء بمختلف تخصصاتهم لتقديم أرقى خدمة طبية آمنة في جوانب عدة تلمس وتؤثر في المجتمع المصري وأولهم الأدوية سواء مصرية الصنع أو المستوردة منها مع تقديم أفضل الكورسات المساعدة في
+                        علاج الكثير من المشكلات في مختلف التخصصات تحت إشراف وتوجيه أعلام طبية ذوو خبرة كلٌ في تخصصه، كما أننا نخطط في الفترة القادمة لتقديم حلول إبداعية سواء رقمية أو مجتمعية تساعد في تطوير المنظومة الطبية والوصول بالمريض دائمًا لبرّ
+                        الأمان ..
+                    </p>
+                    
+                    <img class="float-left" src="~/dist/img/logo.png" height="50" alt="">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script>
+     $(document).ready(function () {
+        $('.nav-link').removeClass('active');
+        $('#AboutUs').addClass('active');
+    })
+</script>
